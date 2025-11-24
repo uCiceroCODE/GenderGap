@@ -6,6 +6,8 @@ const db = require('../config/database');
 router.get('/getImmbByRegion', async (req, res) => {
   try {    
     // console.log(req.query.regione);
+    // console.log(req);
+    
     
     const regione = req.query.regione.toUpperCase();
     
