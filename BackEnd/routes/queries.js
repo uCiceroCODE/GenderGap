@@ -16,11 +16,11 @@ router.get('/getImmbByRegion', async (req, res) => {
     let query = `
       SELECT 
         genere,
-        SUM(CASE WHEN tipo = 'immatricolati' THEN valore ELSE 0 END) as total_immatricolati,
-        SUM(CASE WHEN tipo = 'laureati' THEN valore ELSE 0 END) as total_laureati,
-        SUM(CASE WHEN tipo = 'dottorandi' THEN valore ELSE 0 END) as total_dottorandi,
-        SUM(CASE WHEN tipo = 'dottori' THEN valore ELSE 0 END) as total_dottori,
-        SUM(CASE WHEN tipo = 'staff' THEN valore ELSE 0 END) as total_numero_staff
+        SUM(CASE WHEN tipo = 'immatricolati' THEN valore ELSE 0 END) as t_i,
+        SUM(CASE WHEN tipo = 'laureati' THEN valore ELSE 0 END) as t_l,
+        SUM(CASE WHEN tipo = 'dottorandi' THEN valore ELSE 0 END) as t_dn,
+        SUM(CASE WHEN tipo = 'dottori' THEN valore ELSE 0 END) as t_di,
+        SUM(CASE WHEN tipo = 'staff' THEN valore ELSE 0 END) as t_s
       FROM (
         SELECT 
           CASE 
@@ -90,7 +90,12 @@ router.get('/getImmbByRegion', async (req, res) => {
     `;
         
     const [results] = await db.query(query, [regione, regione, regione, regione, regione]);
-    res.json(results);
+
+    // console.log({ donne: [results[0].t_i, results[0].t_l, results[0].t_dn, results[0].t_di, results[0].t_s]});
+    // console.log({ uomini: [results[1].t_i, results[1].t_l, results[1].t_dn, results[1].t_di, results[1].t_s]});
+    
+    res.json({ donne: [results[0].t_i, results[0].t_l, results[0].t_dn, results[0].t_di, results[0].t_s], 
+              uomini: [results[1].t_i, results[1].t_l, results[1].t_dn, results[1].t_di, results[1].t_s]});
     
   } catch (error) {
     res.status(500).json({ error: error.message });
