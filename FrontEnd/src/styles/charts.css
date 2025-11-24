@@ -1,0 +1,109 @@
+/* Chart Section */
+#charts-section {
+  background: rgba(30, 41, 59, 0.3);
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.chart-container {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.chart-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.chart-title::before {
+  content: "";
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+  margin-right: 1rem;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  height: 300px;
+  margin-top: 1.5rem;
+}
+
+.bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  min-height: 50px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bar:hover {
+  filter: brightness(1.2);
+}
+
+.bar-label {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.bar-value {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* Data Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+.data-table th {
+  background: rgba(139, 92, 246, 0.1);
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid rgba(148, 163, 184, 0.2);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.data-table tr:hover {
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.gap-negative {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.gap-positive {
+  color: var(--success);
+  font-weight: 600;
+}

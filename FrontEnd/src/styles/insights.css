@@ -1,0 +1,47 @@
+/* Insights Section */
+#insights {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.05),
+    rgba(236, 72, 153, 0.05)
+  );
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.insight-card {
+  background: rgba(30, 41, 59, 0.7);
+  border-left: 4px solid var(--primary);
+  border-radius: 10px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.insight-card:nth-child(2) {
+  border-left-color: var(--secondary);
+}
+
+.insight-card:nth-child(3) {
+  border-left-color: var(--accent);
+}
+
+.insight-card:hover {
+  transform: translateX(5px);
+}
+
+.insight-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.insight-text {
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
