@@ -1,6 +1,6 @@
 // Map.jsx
 import React, { useState, useEffect } from "react";
-import { MapContainer, GeoJSON, useMap } from "react-leaflet";
+import { MapContainer, GeoJSON, useMap, AttributionControl } from "react-leaflet";
 import L from "leaflet";
 import italiaGeojson from "../../public/it.json";
 import "leaflet/dist/leaflet.css";
@@ -10,7 +10,7 @@ import MapChart from "./MapChart";
 
 
 const ResizeMap = () => {
-  const map = useMap();
+  const map = useMap({});
   
   useEffect(() => {
     setTimeout(() => {
@@ -59,18 +59,18 @@ const Map = () => {
         
         if (selectedRegion?.name === regionName) {
           layer.setStyle({
-            fillColor: "#FFD700",
+            fillColor: "#eb1902",
             weight: 2,
-            opacity: 0.8,
-            fillOpacity: 0.7
+            opacity: 1,
+            fillOpacity: 1
           });
           layer.bringToFront();
         } else {
           layer.setStyle({
-            fillColor: "#3388ff",
+            fillColor: "#ffffff",
             weight: 1,
-            opacity: 0.5,
-            fillOpacity: 0.5
+            opacity: 1,
+            fillOpacity: 1
           });
         }
       });
@@ -96,10 +96,10 @@ const Map = () => {
       // Hover solo se NON è selezionata
       if (selectedRegion?.name !== regionName) {
         layer.setStyle({
-          fillColor: "#FFD700",
+          fillColor: "#eb1902",
           weight: 2,
-          opacity: 0.8,
-          fillOpacity: 0.7
+          opacity: 1,
+          fillOpacity: 1
         });
       }
       layer.bringToFront();
@@ -109,21 +109,21 @@ const Map = () => {
       // Ripristina lo stile solo se NON è selezionata
       if (selectedRegion?.name !== regionName) {
         layer.setStyle({
-          fillColor: "#3388ff",
+          fillColor: "#ffffff",
           weight: 1,
-          opacity: 0.5,
-          fillOpacity: 0.5
+          opacity: 1,
+          fillOpacity:1
         });
       }
     });
   };
 
   const style = {
-    fillColor: "#3388ff",
+    fillColor: "#ffffff",
     weight: 1,
-    opacity: 0.5,
+    opacity: 1,
     color: "#0033ff",
-    fillOpacity: 0.5
+    fillOpacity: 1
   };
 
   return (
@@ -143,7 +143,7 @@ const Map = () => {
                 zoomControl={false}
               >
                 <GeoJSON 
-                key={"G"+selectedRegion?.name}
+                  key={"G"+selectedRegion?.name}
                   ref={setGeoJsonRef}
                   data={italiaGeojson} 
                   style={style} 
@@ -151,7 +151,6 @@ const Map = () => {
                 />
                 <ResizeMap />
                 <LimitMap />
-                <div className="map-cover-badge"></div>
               </MapContainer>
             ) : (
               <div className="map-placeholder">Errore nel caricamento della mappa</div>

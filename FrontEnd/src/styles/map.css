@@ -68,7 +68,7 @@
 .map-wrapper {
   flex: 1;
   position: relative;
-  background-color: #c5b8ca;
+  background-color: transparent;
 }
 
 .map {
@@ -83,21 +83,15 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: #c5b8ca;
+  background-color: #ffffff;
   color: #999;
   font-size: 16px;
   font-weight: 500;
 }
 
 
-.map-cover-badge{
-  width: 25%;
-  height: 10%;
-  position: absolute;
-  background-color: #c5b8ca;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
+.leaflet-control-attribution {
+  display: none !important;
 }
 
 

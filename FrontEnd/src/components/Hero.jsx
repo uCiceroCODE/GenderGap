@@ -103,6 +103,7 @@ export default function Hero({ onScrollToStats }) {
     };
   }, []);
 
+  
   return (
     <section id='hero' style={{ position: 'relative' }}>
       <canvas
@@ -110,8 +111,9 @@ export default function Hero({ onScrollToStats }) {
         ref={canvasRef}
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
       />
+      
       <div className='hero-content' style={{ position: 'relative', zIndex: 1 }}>
-        <h1 className='hero-title'>Il Divario di Genere in Italia</h1>
+        <h1 className='hero-title'>Il Gender Gap in Italia</h1>
         <p className='hero-subtitle'>
           Analisi approfondita dei dati, tendenze e prospettive
         </p>

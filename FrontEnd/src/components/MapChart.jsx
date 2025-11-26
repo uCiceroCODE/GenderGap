@@ -11,7 +11,7 @@ const MapChart = ({ region }) => {
     region &&
       axios
         .get(
-          `http://localhost:8080/api/queries/getImmbByRegion?regione=${
+          `http://localhost:8080/api/queries/getByRegion?regione=${
             region ? region.name : "ITALIA"
           }`,
           {}
@@ -28,7 +28,7 @@ const MapChart = ({ region }) => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8080/api/queries/getImmbByRegion?regione=ITALIA`,
+        `http://localhost:8080/api/queries/getByRegion?regione=ITALIA`,
         {}
       )
       .then((response) => {
@@ -48,7 +48,7 @@ const MapChart = ({ region }) => {
     <div className="map-chart-container">
       <h3 className="map-chart-header">{region ? region.name : "Italia"}</h3>
       <BarChart
-        categories={["Immatricolati", "Laureati", "Professori"]}
+        categories={region && region.name.toUpperCase() === "VALLE D'AOSTA" ?  ["Immatricolati","Laureati" , "Professori"] : ["Immatricolati","Laureati", "Dottorandi", "Dottori" , "Professori"]}
         data1={data.donne}
         label1={"uomini"}
         data2={data.uomini}

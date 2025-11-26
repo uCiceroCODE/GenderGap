@@ -10,8 +10,8 @@
   border: 1px solid rgba(148, 163, 184, 0.1);
   border-radius: 15px;
   padding: 2rem;
-  margin-bottom: 2rem;
   backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
 }
 
 .chart-title {
