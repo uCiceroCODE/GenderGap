@@ -1,54 +1,41 @@
 import React from "react";
 import Chart from "react-apexcharts";
-import "../styles/apexchart_custom.css"
+import "../../styles/apexchart_custom.css"
 import { millify } from 'millify';
 
-const BarChart = ({data1, data2, label1, label2, categories, vertical}) => {
+const LineChart = ({data1, label1, data2, label2, categories, active}) => {
   const options = {
     stroke: {
-      width: 1, 
-      colors: ['#000000'] 
+      width: 2, 
+      colors: ['#0055ffff', '#13d11dff'] ,
+      curve: 'smooth',
+    },
+    markers: {
+    size: 1,
     },
 
     chart: {
       type: 'bar',
       height: 350,
-    },
-
-    states: {
-      hover: {
-        filter: {
-          type: 'none'  
-        }
-      },
-      active: {
-        filter: {
-          type: 'none'  
-        }
+      zoom: {
+        enabled: false
       }
     },
-
-    plotOptions: {
-      bar: {
-        horizontal: vertical ? false : true,
-        columnWidth: '50%',
-        endingShape: 'rounded',
-      },
-    },
-
 
     dataLabels: {
       enabled: false,
       style: {
       colors: ['#000']
-    }
-    },
+    }},
 
 
     legend: {
       position: 'bottom',
-       onItemClick: {
+      onItemClick: {
       toggleDataSeries: false
+    },
+      onItemHover: {
+      highlightDataSeries: true
     },
       labels: {
       colors: ['#ffffff', '#ffffff']
@@ -58,7 +45,7 @@ const BarChart = ({data1, data2, label1, label2, categories, vertical}) => {
 
     tooltip: {
       theme: 'dark',
-      enabled: true,
+      enabled: active,
       shared: true,
       intersect: false,
       y: {
@@ -94,14 +81,16 @@ const BarChart = ({data1, data2, label1, label2, categories, vertical}) => {
     {
       name: label1,
       data: data1,
+      show: !data1
     },
     {
       name: label2,
       data: data2,
-    },
+      show: !data2,
+    }
   ];
 
-  return <Chart options={options} series={series} type="bar" height={350} />;
+  return <Chart options={options} series={series} type="line" height={350} />;
 };
 
-export default BarChart;
+export default LineChart;

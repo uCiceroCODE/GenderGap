@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/mainCharts.css';
-import axios from 'axios';
-import BarChart from './BarChart';
+import React, { useState, useEffect } from "react";
+import "../styles/mainCharts.css";
+import axios from "axios";
+import BarChart from "./BarChart";
+import LineChart from "./charts/LineChart";
 
-export default function MainCharts(){
-
-     const [data, setData] = useState([]);
-     const [loading, setLoading] = useState(true);
+export default function MainCharts() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:8080/api/queries/getByRegion?regione=ITALIA`,
-        {}
-      )
+      .get(`http://localhost:8080/api/queries/getByYearICTS`, {})
       .then((response) => {
         setData(() => {
           return response.data;
@@ -23,15 +20,16 @@ export default function MainCharts(){
       .finally(() => setLoading(false));
   }, []);
 
+  console.log(data);
+  
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const cardsData = [
-    {text:'Test 1'}, 
-    {text:'Test 10'}, 
-    {text:'Test 100'}, 
-    {text:'Test 1000'}, 
-    {text:'Test 10000'},
+    { text: "donne" },
+    { text: "uomini" },
+    { text: "donne" },
+    { text: "uomini" },
   ];
 
   const handlePrev = () => {
@@ -42,24 +40,17 @@ export default function MainCharts(){
     setCurrentIndex((prev) => (prev + 1) % cardsData.length);
   };
 
-
   const getCardClass = (index) => {
     const diff = (index - currentIndex + cardsData.length) % cardsData.length;
-    if (diff === 0) return 'active';
-    if (diff === cardsData.length - 1) return 'prev';
-    return 'next';
+    if (diff === 0) return "active";
+    if (diff === cardsData.length - 1) return "prev";
+    return "next";
   };
 
-
-  if(loading)
-  return (
-    <div>
-        Loading...
-    </div>
-  )
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <div className='mainchart-containter'>
+    <div className="mainchart-containter">
       <h1>Grafici</h1>
 
       <div className="mainchart-wrapper">
@@ -73,19 +64,19 @@ export default function MainCharts(){
 
         <div className="stack-container">
           {cardsData.map((card, idx) => (
-            <div
-              key={idx}
-              className={`graph-card ${getCardClass(idx)}`}
-            >
-                <h3>{card.text}</h3>
-              {data && <BarChart
-              vertical={true}
-        categories={["Immatricolati","Laureati", "Dottorandi", "Dottori" , "Professori"]}
-        data1={[23 ,32,432,43,55]}
-        label1={"uomini"}
-        data2={[232 ,12,32,143,315]}
-        label2={"donne"}
-      />}
+            <div key={idx} className={`graph-card ${getCardClass(idx)}`}>
+              <h3>{card.text}</h3>
+{
+             data && <LineChart vertical={true}
+                categories={[
+                 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023
+                ]}
+                data1={data.donne}
+                data2={data.uomini}
+                label1={"donne"}
+                label2={"uomini"}
+                active = {idx === currentIndex ? true : false}/>
+                }
             </div>
           ))}
         </div>
@@ -103,7 +94,7 @@ export default function MainCharts(){
         {cardsData.map((_, idx) => (
           <div
             key={idx}
-            className={`dot ${idx === currentIndex ? 'active' : ''}`}
+            className={`dot ${idx === currentIndex ? "active" : ""}`}
             onClick={() => setCurrentIndex(idx)}
             aria-label={`Vai a card ${idx + 1}`}
           />
@@ -111,5 +102,4 @@ export default function MainCharts(){
       </div>
     </div>
   );
-};
-
+}

@@ -59,15 +59,30 @@ h1 {
 }
 
 .graph-card.prev {
+  cursor: pointer;
   z-index: 10;
   transform: translateX(-32px) scale(0.92) rotateY(8deg) translateY(-20px);
   opacity: 0.4;
 }
 
 .graph-card.next {
+  cursor: pointer;
   z-index: 5;
   transform: translateX(52px) scale(0.88) rotateY(-5deg) translateY(35px); 
   opacity: 0.4;
+}
+
+.graph-card.prev:hover {
+  z-index: 5;
+  transform: translateX(-82px) scale(0.88) rotateY(8deg) translateY(-100px); 
+  opacity: 0.3;
+}
+
+
+.graph-card.next:hover {
+  z-index: 5;
+  transform: translateX(100px) scale(0.88) rotateY(-15deg) translateY(65px); 
+  opacity: 0.3;
 }
 
 .card-title {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Map from "./Map";
 import "../styles/charts.css";
 import BarChart from "./BarChart";
-import MainCharts from "./mainCharts";
+import MainCharts from "./MainCharts";
 
 export default function Charts() {
   const [width, setWidth] = useState(window.innerWidth);
