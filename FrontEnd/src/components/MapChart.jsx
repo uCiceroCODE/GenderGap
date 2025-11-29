@@ -48,7 +48,7 @@ const MapChart = ({ region }) => {
     <div className="map-chart-container">
       <h3 className="map-chart-header">{region ? region.name : "Italia"}</h3>
       <BarChart
-        categories={region && region.name.toUpperCase() === "VALLE D'AOSTA" ?  ["Professori"] : ["Immatricolati","Laureati", "Professori"]}
+        categories={["Immatricolati","Laureati", "Professori"]}
         data1={data.donne}
         label1={"uomini"}
         data2={data.uomini}

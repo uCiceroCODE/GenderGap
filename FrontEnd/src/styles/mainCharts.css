@@ -81,7 +81,7 @@ h1 {
 
 .graph-card.next:hover {
   z-index: 5;
-  transform: translateX(100px) scale(0.88) rotateY(-15deg) translateY(65px); 
+  transform: translateX(80px) scale(0.88) rotateY(-15deg) translateY(45px); 
   opacity: 0.3;
 }
 
@@ -188,36 +188,39 @@ h1 {
   height: 420px;
   max-width: 85%;
   min-height: 320px;
-  perspective: none;
+  perspective: 1000px;
 }}
 
 
+@media (max-width: 900px) {
 
-.mainchart-wrapper.is-mobile {
+.mainchart-wrapper {
   flex-direction: column;
   gap: 1rem;
   padding-bottom: 90px;
 }
 
-.mainchart-wrapper.is-mobile .stack-container {
+.mainchart-wrapper .stack-container {
   height: 420px;
   max-width: 100%;
   min-height: 320px;
   perspective: none;
 }
 
-.mainchart-wrapper.is-mobile .graph-card {
+.mainchart-wrapper .graph-card {
   position: relative;
   padding: 1.5rem;
   transform: none !important;
   opacity: 1 !important;
+  transition: all;
+  transition-duration: 0.5s;
 }
 
-.mainchart-wrapper.is-mobile .graph-card.prev,
-.mainchart-wrapper.is-mobile .graph-card.next {
+.mainchart-wrapper .graph-card.prev,
+.mainchart-wrapper .graph-card.next {
   display: none;
 }
-.mainchart-wrapper.is-mobile .arrow-btn {
+.mainchart-wrapper .arrow-btn {
   width: 42px;
   height: 42px;
   font-size: 1.2rem;
@@ -225,10 +228,12 @@ h1 {
   bottom: 18px;
 }
 
-.mainchart-wrapper.is-mobile .arrow-btn-left {
-  left: 18%;
+.mainchart-wrapper .arrow-btn-left {
+  left: 12%;
 }
 
-.mainchart-wrapper.is-mobile .arrow-btn-right {
-  right: 18%;
+.mainchart-wrapper .arrow-btn-right {
+  right: 12%;
+}
+
 }

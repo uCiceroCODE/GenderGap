@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import "../../styles/apexchart_custom.css"
 import { millify } from 'millify';
 
-const LineChart = ({data1, label1, data2, label2, categories, active, showAll}) => {
+const LineChart = ({data1, label1, data2, label2, categories, active}) => {
   const options = {
     stroke: {
       width: 2,

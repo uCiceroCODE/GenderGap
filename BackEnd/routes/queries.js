@@ -20,8 +20,6 @@ router.get("/getByRegion", async (req, res) => {
     genere,
     SUM(CASE WHEN tipo = 'immatricolati' THEN valore ELSE 0 END) AS t_i,
     SUM(CASE WHEN tipo = 'laureati'      THEN valore ELSE 0 END) AS t_l,
-    SUM(CASE WHEN tipo = 'dottorandi'    THEN valore ELSE 0 END) AS t_dn,
-    SUM(CASE WHEN tipo = 'dottori'       THEN valore ELSE 0 END) AS t_di,
     SUM(CASE WHEN tipo = 'staff'         THEN valore ELSE 0 END) AS t_s
     FROM (
     -- IMMATRICOLATI

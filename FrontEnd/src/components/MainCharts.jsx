@@ -3,25 +3,12 @@ import "../styles/mainCharts.css";
 import axios from "axios";
 import LineChart from "./charts/LineChart";
 
-const MOBILE_BREAKPOINT = 900;
-const shouldForceMobile = () => {
-  if (typeof window === "undefined") return false;
-  const value = new URLSearchParams(window.location.search).get("forceMobile");
-  return value === "1" || value === "true";
-};
 
 export default function MainCharts() {
-  // const [width, setWidth] = useState(window.innerWidth);
-
-  // useEffect(() => {
-  //   const handleResize = () => setWidth(window.innerWidth);
-
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     axios
@@ -35,25 +22,7 @@ export default function MainCharts() {
       .finally(() => setLoading(false));
   }, []);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === "undefined") return false;
-    if (shouldForceMobile()) return true;
-    return window.innerWidth <= MOBILE_BREAKPOINT;
-  });
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (shouldForceMobile()) {
-
-      setIsMobile(true);
-      return;
-    }
-    const handleResize = () =>
-      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  
   
   const cardsData = [
     {
@@ -148,7 +117,7 @@ export default function MainCharts() {
     <div className="mainchart-containter">
       <h1>Grafici</h1>
 
-      <div className={`mainchart-wrapper ${isMobile ? "is-mobile" : ""}`}>
+      <div className={`mainchart-wrapper`}>
         <button
           className="arrow-btn arrow-btn-left"
           onClick={handlePrev}
