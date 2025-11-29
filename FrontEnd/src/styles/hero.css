@@ -1,72 +1,275 @@
-/* Hero Section */
+/* Hero Section Base */
 #hero {
-  margin-top: 70px;
+  position: relative;
+  width: 100%;
   min-height: 100vh;
+  overflow: hidden;
+  background: #0a0e27;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+}
+
+/* Background animato */
+.animated-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============ ANIMAZIONI RANDOMICHE ============ */
+
+/* Movimento verticale randomico */
+@keyframes floatUp {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(calc(var(--distance) * -1)) rotate(180deg);
+    opacity: 0.3;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+/* Movimento diagonale randomico */
+@keyframes floatDiagonal {
+  0%, 100% {
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(calc(var(--distance) * 0.8), calc(var(--distance) * -1)) rotate(180deg);
+    opacity: 0.3;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+/* Movimento orizzontale randomico */
+@keyframes floatSide {
+  0%, 100% {
+    transform: translateX(0px) rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(calc(var(--distance) * 1.2)) rotate(-180deg);
+    opacity: 0.3;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+/* Grid animato randomico */
+@keyframes gridShift {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--distance), var(--distance));
+  }
+}
+
+/* ============ FORME GALLEGGIANTI ============ */
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  
+  /* Variabili CSS (overridate da JS) */
+  --top: 50%;
+  --left: 50%;
+  --duration: 10s;
+  --delay: 0s;
+  --distance: 30px;
+  
+  top: var(--top);
+  left: var(--left);
+}
+
+.floating-shape.float-up {
+  animation: floatUp var(--duration) ease-in-out infinite var(--delay);
+}
+
+.floating-shape.float-diagonal {
+  animation: floatDiagonal var(--duration) ease-in-out infinite var(--delay);
+}
+
+.floating-shape.float-side {
+  animation: floatSide var(--duration) ease-in-out infinite var(--delay);
+}
+
+/* Colori randomici per le sfere */
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.8), transparent);
+}
+
+.shape-2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.8), transparent);
+}
+
+.shape-3 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent);
+}
+
+.shape-4 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.6), transparent);
+}
+
+.shape-5 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.6), transparent);
+}
+
+.shape-6 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.7), transparent);
+}
+
+/* ============ GRID ANIMATO ============ */
+
+.animated-grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridShift 30s linear infinite;
+  opacity: 0.3;
+}
+
+/* ============ CONTENUTO HERO ============ */
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 20px;
+  animation: slideInUp 0.8s ease-out;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #8B5CF6, #EC4899, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #b0b0b0;
+  margin-bottom: 40px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.cta-button {
+  padding: 15px 40px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #8B5CF6, #EC4899);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
   position: relative;
   overflow: hidden;
 }
 
-.hero-content {
-  max-width: 1000px;
-  text-align: center;
-  z-index: 10;
-}
-
-.hero-title {
-  font-size: 4rem;
-  font-weight: 900;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    var(--primary),
-    var(--secondary),
-    var(--accent)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: fadeInUp 1s ease-out;
-
-}
-
-.hero-subtitle {
-  font-size: 1.3rem;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-  animation: fadeInUp 1s ease-out 0.2s backwards;
-}
-
-.cta-button {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  animation: fadeInUp 1s ease-out 0.4s backwards;
-  text-decoration: none;
-}
-
 .cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
 }
 
+.cta-button:active {
+  transform: translateY(0);
+}
 
-/* Canvas for Three.js */
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+/* ============ ANIMAZIONE INGRESSO ============ */
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 12px 30px;
+    font-size: 0.9rem;
+  }
+
+  .floating-shape {
+    filter: blur(60px) !important;
+  }
+
+  .animated-grid {
+    background-size: 30px 30px;
+  }
+  
+  .floating-shape {
+    --distance: 20px !important; /* Riduci movimento su mobile */
+  }
+}
+
+/* ============ DARK MODE ============ */
+
+@media (prefers-color-scheme: dark) {
+  #hero {
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  }
 }
