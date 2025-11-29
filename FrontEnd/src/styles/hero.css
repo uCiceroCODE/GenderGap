@@ -200,7 +200,7 @@
   line-height: 1.6;
 }
 
-.cta-button {
+.cta-a {
   padding: 15px 40px;
   font-size: 1rem;
   font-weight: 600;
@@ -215,12 +215,12 @@
   overflow: hidden;
 }
 
-.cta-button:hover {
+.cta-a:hover {
   transform: translateY(-2px);
   box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
 }
 
-.cta-button:active {
+.cta-a:active {
   transform: translateY(0);
 }
 

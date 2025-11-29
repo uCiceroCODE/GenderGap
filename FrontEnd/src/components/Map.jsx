@@ -172,13 +172,10 @@ const Map = () => {
 
 
       <div className="map-description">
-            <p>Tutte le regioni italiane mostrano un andamento identico e preoccupante nel settore ICT, caratterizzato da tre livelli di formazione che presentano uno squilibrio di genere chiamo <b>Digital Gender Gap</b> sempre più marcato man mano che si sale nella scala accademica e professionale.</p>
-            <p>L'andamento identico in tutte le regioni evidenzia come il digital gender gap nel settore ICT sia un fenomeno sistemico radicato nella cultura italiana, 
-              non circoscritto a specifiche aree geografiche. Il passaggio dagli immatricolati ai laureati ai professori mostra un progressivo restringimento della presenza femminile, 
-              suggerendo che le donne affrontano ostacoli crescenti nel progredire all'interno dell'ecosistema accademico e professionale del settore tecnologico. 
-              Per invertire questa tendenza, sono necessarie iniziative strutturali a livello nazionale che affrontino gli stereotipi di genere, promuovano modelli positivi femminili nel settore, 
-              e incentivino la partecipazione delle ragazze fin dai livelli scolastici primari.</p>
-              <p>Possiamo notare che nei professori e nei ricercatori c'è quasi sempre un numero di uomini 3 o piu volte grande rispetto al numero di donne, mentre per gli immatricolati e lauerati il valore sale fino ad essere persino 6 o piu volte grande, questo ci indica che il Digital Gender Gap in quella zona e molto grave</p>
+            <p>La mappa mostra come in tutte le regioni italiane il digital gender gap nel settore ICT si amplifichi 
+              lungo la carriera accademica: le donne sono già minoranza tra gli immatricolati e 
+              diventano ancora più sottorappresentate tra laureati e soprattutto tra professori e ricercatori, 
+              segno di barriere strutturali e culturali che ostacolano la progressione femminile nel digitale</p>
       </div>
 
 

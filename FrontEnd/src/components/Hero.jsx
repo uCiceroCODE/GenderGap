@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import "../styles/hero.css"
 
-export default function Hero({ onScrollToStats }) {
+export default function Hero() {
   useEffect(() => {
     // Genera valori randomici per ogni sfera
     const shapes = document.querySelectorAll('.floating-shape');
     
-    shapes.forEach((shape, index) => {
+    shapes.forEach((shape) => {
       // Posizioni randomiche iniziali
       const randomTop = Math.random() * 80;
       const randomLeft = Math.random() * 80;
@@ -58,9 +58,9 @@ export default function Hero({ onScrollToStats }) {
         <p className='hero-subtitle'>
           Analisi approfondita dei dati, tendenze e prospettive
         </p>
-        <button className="cta-button" onClick={onScrollToStats}>
+        <a className="cta-a" href='#charts-section'>
           Scopri i Dati
-        </button>
+        </a>
       </div>
     </section>
   );

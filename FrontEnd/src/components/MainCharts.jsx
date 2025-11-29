@@ -23,85 +23,41 @@ export default function MainCharts() {
   }, []);
 
   
-  
+  const dataLen = 5
   const cardsData = [
+    {
+      titolo: "Immatricolati STEM | ICT",
+      descrizione:
+        "Il grafico evidenzia che, tra il 2013 e il 2023, gli uomini rappresentano sempre la maggioranza delle nuove immatricolazioni in corsi STEM e ICT, con valori spesso anche multipli rispetto a quelli femminili; questo indica che il divario digitale di genere nasce già all’ingresso dei percorsi universitari tecnico‑scientifici."
+    },
     {
       titolo: "Laureati STEM | ICT",
       descrizione:
-        "Questo grafico mostra l'andamento dei laureati in discipline STEM e ICT dal 2013 al 2023. La linea verde (uomini) parte da circa 127.000 nel 2013 e diminuisce gradualmente fino a circa 96.000 nel 2023, con una tendenza ribassista costante. La linea blu (donne) parte da circa 80.000 nel 2013 e scende fino a circa 64.000 nel 2023. Entrambe le linee mostrano una riduzione complessiva, anche se gli uomini mantengono sempre un numero superiore di laureati rispetto alle donne in questi settori. Questo evidenzia un calo generale di interesse verso le discipline STEM e ICT negli ultimi dieci anni.",
-      trend: "decrescente",
-      periodo: "2013-2023",
-      genere: ["uomini", "donne"],
-      osservazioni: [
-        "Diminuzione costante di laureati",
-        "Gap di genere persistente: gli uomini rappresentano il 60% dei laureati",
-        "Riduzione di circa 26% per gli uomini e 20% per le donne",
-      ],
-    },
-    {
-      titolo: "Dottori STEM | ICT",
-      descrizione:
-        "Il grafico illustra il numero di dottori di ricerca (dottorati) in STEM e ICT dal 2013 al 2023. La linea verde (uomini) inizia da circa 6.000 nel 2013 e raggiunge il minimo di circa 4.900 nel 2018, per poi risalire leggermente fino a circa 5.200 nel 2023. La linea blu (donne) parte da circa 4.200 nel 2013, scende fino a circa 3.700 nel 2016, risale fino a un picco di 4.500 nel 2019 (anno evidenziato nel grafico), per poi tornare a circa 4.200 nel 2023. Il grafico mostra una stabilizzazione attorno al 2019, anno critico per l'analisi del settore.",
-      trend: "variabile con stabilizzazione",
-      periodo: "2013-2023",
-      genere: ["uomini", "donne"],
-      osservazioni: [
-        "Minimo raggiunto nel 2016-2018",
-        "Incremento dal 2018 al 2019",
-        "Stabilità relativa dal 2019 al 2023",
-        "Gap di genere moderato nel 2019",
-      ],
+        "Tra il 2013 e il 2023 il numero di laureati in STEM e ICT diminuisce sia per uomini sia per donne, ma il divario rimane costante: gli uomini restano nettamente più numerosi, segnalando che il digital gender gap non si chiude lungo il percorso di studi, ma si consolida dall’immatricolazione al conseguimento del titolo.",
     },
     {
       titolo: "Dottorandi STEM | ICT",
       descrizione:
-        "Questo grafico rappresenta il numero di dottorandi (studenti di dottorato) in STEM e ICT dal 2013 al 2023. La linea verde (uomini) inizia da circa 28.000 nel 2013 e diminuisce drasticamente fino a raggiungere il minimo di circa 18.000 nel 2018, dopodiché rimane relativamente stabile attorno a 18.000 fino al 2023. La linea blu (donne) parte da circa 21.000 nel 2013 e scende più gradualmente fino a circa 13.000 nel 2023. Il trend generale è fortemente negativo, con una riduzione di oltre il 35% per gli uomini e circa il 38% per le donne nel decennio considerato.",
-      trend: "decrescente marcato",
-      periodo: "2013-2023",
-      genere: ["uomini", "donne"],
-      osservazioni: [
-        "Calo significativo dal 2013 al 2018 per entrambi i generi",
-        "Stabilizzazione dal 2018 al 2023",
-        "Riduzione di circa 35-38% complessiva",
-        "Gap di genere crescente nel tempo",
-      ],
+        "Nel dottorato il grafico conferma una forte prevalenza maschile: le donne sono sistematicamente meno presenti nei percorsi avanzati di ricerca STEM e ICT, indicando che l’accesso femminile alle posizioni di alta formazione nel digitale è ancora limitato e selettivo.",
     },
     {
-      titolo: "Laureati STEM | ICT",
+      titolo: "Dottori STEM | ICT",
       descrizione:
-        "Simile al primo grafico, questo mostra l'evoluzione dei laureati STEM e ICT dal 2013 al 2023, con un focus particolare sull'anno 2019 (evidenziato da una linea tratteggiata). Nel 2019, il numero di donne laureate in STEM e ICT era di circa 102.400, mentre gli uomini erano circa 67.300. La linea verde (uomini) continua il suo trend decrescente, e la linea blu (donne) mostra anch'essa una diminuzione generale. L'anno 2019 rappresenta un punto di transizione importante dove le differenze di genere risultano più marcate.",
-      trend: "decrescente",
-      periodo: "2013-2023",
-      genere: ["uomini", "donne"],
-      osservazioni: [
-        "Trend decrescente confermato",
-        "Nel 2019, le donne superano gli uomini nei numeri assoluti",
-        "Gap di genere inverso rispetto ai dottorandi e dottori",
-        "Calo accelerato dal 2019 al 2023",
-      ],
+        "Il numero di dottori in discipline STEM e ICT mostra un gender gap persistente: gli uomini superano stabilmente le donne, suggerendo che le barriere di genere non solo ostacolano l’ingresso ai dottorati, ma riducono anche la probabilità che le donne portino a termine questi percorsi altamente qualificanti nel digitale.",
     },
     {
       titolo: "Professori e Ricercatori STEM | ICT",
       descrizione:
-        "Il grafico presenta l'andamento del numero di professori e ricercatori in STEM e ICT dal 2013 al 2023. La linea verde (uomini) parte da circa 52.000 nel 2013 e diminuisce gradualmente fino a circa 40.500 nel 2023, con una riduzione complessiva di circa il 22%. La linea blu (donne) inizia da circa 31.000 nel 2013 e scende fino a circa 22.500 nel 2023, con una riduzione di circa il 27%. Entrambi i generi mostrano una contrazione nel numero di ricercatori e professori, ma il calo colpisce leggermente più le donne rispetto agli uomini. Questo riflette una diminuzione generale dei posti accademici e di ricerca nel settore STEM e ICT.",
-      trend: "decrescente",
-      periodo: "2013-2023",
-      genere: ["uomini", "donne"],
-      osservazioni: [
-        "Riduzione di circa 22-27% complessiva",
-        "Calo più marcato per le donne (27%)",
-        "Gap di genere persistente: gli uomini circa il 64% del totale",
-        "Riduzione di posti accademici nel settore",
-      ],
+        "Nel grafico su professori e ricercatori in ambito STEM e ICT emerge il divario più marcato: gli uomini sono maggiori rispetto al numero delle donne, segno che il digital gender gap si traduce in una grave sotto‑rappresentazione femminile nelle posizioni di potere scientifico e accademico, con un impatto diretto su innovazione, governance e modelli di ruolo nel settore tecnologico.",
     },
   ];
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + cardsData.length) % cardsData.length);
+  const handlePrev = () => {    
+    setCurrentIndex((prev) => prev != 0 ? (prev - 1 + cardsData.length) % cardsData.length : prev);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % cardsData.length);
+    setCurrentIndex((prev) => prev != dataLen - 1 ?  (prev + 1) % cardsData.length : prev);
   };
 
   const getCardClass = (index) => {
@@ -118,22 +74,28 @@ export default function MainCharts() {
       <h1>Grafici</h1>
 
       <div className={`mainchart-wrapper`}>
-        <button
+
+        {currentIndex != 0 && <button
           className="arrow-btn arrow-btn-left"
           onClick={handlePrev}
           aria-label="Precedente"
         >
           ←
-        </button>
+        </button>}
+
         <div className="stack-container">
           {data &&
             data.map((chart, idx) => (
-              <div key={idx} className={`graph-card ${getCardClass(idx)}`}>
+              <div key={idx} onClick={currentIndex + 1 == idx && handleNext || currentIndex + 1 == idx + 2 && handlePrev || (() => {}) } 
+              className={`graph-card ${getCardClass(idx)} ${currentIndex == idx  || currentIndex + 1 == idx || currentIndex + 1 == idx + 2 ? "" : "invisible"}` }>
                 <h3>{chart.text} STEM | ICT</h3>
-                {
+                {data &&
                   <LineChart
                     vertical={true}
-                    categories={[
+                    categories={idx == 4 ? [
+                      2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021,
+                      2022, 2023, 2024
+                    ] : [
                       2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021,
                       2022, 2023,
                     ]}
@@ -147,13 +109,14 @@ export default function MainCharts() {
               </div>
             ))}
         </div>
-        <button
+
+        {currentIndex != dataLen - 1 && <button
           className="arrow-btn arrow-btn-right"
           onClick={handleNext}
           aria-label="Successivo"
         >
           →
-        </button>
+        </button>}
       </div>
       <div className="indicator">
         {cardsData.map((_, idx) => (

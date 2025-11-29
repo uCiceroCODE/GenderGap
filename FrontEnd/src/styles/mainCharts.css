@@ -52,6 +52,11 @@ h1 {
   will-change: transform, opacity, z-index;
 }
 
+.graph-card.invisible {
+  display: none;
+}
+
+
 .graph-card.active {
   z-index: 20;
   transform: translateX(0) scale(1) rotateY(0deg);
@@ -81,7 +86,7 @@ h1 {
 
 .graph-card.next:hover {
   z-index: 5;
-  transform: translateX(0px) scale(0.88) rotateY(-15deg) translateY(45px); 
+  transform: translateX(100px) scale(0.88) rotateY(-15deg) translateY(85px); 
   opacity: 0.3;
 }
 

@@ -16,7 +16,7 @@ export default function Charts() {
 
   return (
     <section id="charts-section" className="section">
-      <h2 className="section-title">Analisi Dettagliata [riempimento]</h2>
+      <h2 className="section-title">[riempimento]</h2>
       <p className="section-subtitle">
         Confronti e tendenze nei principali indicatori del divario
       </p>
@@ -28,7 +28,7 @@ export default function Charts() {
         </div>
       )}
 
-      <div className="chart-container">
+      <div className="chart-container" >
         <div className="chart-title">Alcuni dati riguardanti il Gender Gap</div>
           <MainCharts />
        </div>

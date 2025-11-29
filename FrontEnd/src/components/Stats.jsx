@@ -5,7 +5,7 @@ import Count from './animations/Count'
 export default function Stats() {
 
   return (
-    <section id='stats' class="section">
+    <section id='stats' className="section">
 
         <h2 className='section-title'>Statistiche Chiave 2024-2025</h2>
         <p className='section-subtitle'>Uno sguardo alle principali metriche del gender gap italiano</p>
