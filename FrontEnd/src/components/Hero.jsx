@@ -45,8 +45,8 @@ export default function Hero({ onScrollToStats }) {
     const meshes = [];
     const clock = new THREE.Clock();
 
-    for (let i = 0; i < 25; i++) {
-      const size = Math.random() * 1.5 + 0.3;
+    for (let i = 0; i < 15; i++) {
+      const size = Math.random() * 1.5 +0.33;
       const geometry = new THREE.IcosahedronGeometry(size, 15);
       
       const hue = Math.random() * 0.3 + 0.5;
@@ -62,7 +62,7 @@ export default function Hero({ onScrollToStats }) {
       // Better initial positioning using spherical coordinates
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.random() * Math.PI * 0.8;
-      const radius = 5 + Math.random() * 3;
+      const radius = 5 + Math.random() * 4;
 
       mesh.position.x = radius * Math.sin(phi) * Math.cos(theta);
       mesh.position.y = radius * Math.sin(phi) * Math.sin(theta);
@@ -74,8 +74,8 @@ export default function Hero({ onScrollToStats }) {
       // Store animation data
       mesh.userData = {
         basePosition: mesh.position.clone(),
-        orbitSpeed: 0.3 + Math.random() * 0.2,
-        orbitRadius: 2 + Math.random() * 1.5,
+        orbitSpeed: 0.2 + Math.random() * 0.2,
+        orbitRadius: 1.5 + Math.random() * 1.5,
         rotationSpeed: {
           x: (Math.random() - 0.5) * 0.015,
           y: (Math.random() - 0.5) * 0.015
@@ -115,10 +115,10 @@ export default function Hero({ onScrollToStats }) {
         mesh.scale.set(pulse, pulse, pulse);
 
         // Smooth boundary wrapping (prevents objects going too far)
-        if (Math.abs(mesh.position.x) > 12) {
+        if (Math.abs(mesh.position.x) > 10) {
           mesh.userData.basePosition.x *= -0.8;
         }
-        if (Math.abs(mesh.position.y) > 12) {
+        if (Math.abs(mesh.position.y) > 10) {
           mesh.userData.basePosition.y *= -0.8;
         }
       });

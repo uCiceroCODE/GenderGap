@@ -82,7 +82,7 @@ const Map = () => {
     
     layer.on("click", () => {
       if (selectedRegion?.name === regionName) {
-        setSelectedRegion(null);
+        setSelectedRegion({name: 'Italia' });
       } else {
         setSelectedRegion({
           name: regionName,
@@ -127,7 +127,12 @@ const Map = () => {
   };
 
   return (
+    <div>
+    
+    
+    
     <div className="map-main-container">
+
       <div className="map-container">
         <div className="map-header">
           <h2>Mappa Interattiva Italia</h2>
@@ -160,6 +165,16 @@ const Map = () => {
       </div>
 
       <MapChart region={selectedRegion && selectedRegion}/>
+
+      </div>
+
+
+      <div className="map-description">
+            <p>Possiamo notare che in tutti gli atenei delle varie regioni italiane, c'è una grande differenza tra il numero di uomini che sono nel mondo del settore ICT rispetto alle donne</p>
+            <p>I dati seguenti vanno dal 2013 al 2023 per gli Immatricolati e per i Laureati mentre dal 2012 al 2024 per i professori</p>
+      </div>
+
+
     </div>
   );
 };
