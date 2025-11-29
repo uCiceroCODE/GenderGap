@@ -72,35 +72,22 @@ ORDER BY genere;
 
      `;
 
-    const [results] = await db.query(query, [
-      regione,
-      regione,
-      regione,
-    ]);
+    const [results] = await db.query(query, [regione, regione, regione]);
 
     // console.log({ donne: [results[0].t_i, results[0].t_l, results[0].t_dn, results[0].t_di, results[0].t_s]});
     // console.log({ uomini: [results[1].t_i, results[1].t_l, results[1].t_dn, results[1].t_di, results[1].t_s]});
 
-res.json( regione != "VALLE D'AOSTA" ? {
-          uomini: [
-            results[0].t_i,
-            results[0].t_l,
-            results[0].t_s,
-          ],
-          donne: [
-            results[1].t_i,
-            results[1].t_l,
-            results[1].t_s,
-          ],
-        } : {
-          uomini: [
-            results[0].t_s,
-          ],
-          donne: [
-            results[1].t_s,
-          ],
-        })
-
+    res.json(
+      regione != "VALLE D'AOSTA"
+        ? {
+            uomini: [results[0].t_i, results[0].t_l, results[0].t_s],
+            donne: [results[1].t_i, results[1].t_l, results[1].t_s],
+          }
+        : {
+            uomini: [results[0].t_s],
+            donne: [results[1].t_s],
+          }
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -108,7 +95,7 @@ res.json( regione != "VALLE D'AOSTA" ? {
 
 router.get("/getByYearICTS", async (req, res) => {
   try {
-    let query = `
+    let query_i = `
     SELECT 
       anno,
       genere,
@@ -119,13 +106,103 @@ router.get("/getByYearICTS", async (req, res) => {
     ORDER BY anno DESC;
     `;
 
-    let [results] = await db.query(query);
+    let query_l = `
+    SELECT 
+      anno,
+      genere,
+      SUM(n_laureati) as totale
+    FROM laureati
+    GROUP BY anno, genere
+    HAVING genere = 'F' OR genere = 'M'
+    ORDER BY anno DESC;
+    `;
 
-    results = {
-      donne: results.map((x) => x.genere === 'F' ? x.totale : null).filter((x) => x != null),
-      uomini: results.map((x) => x.genere === 'M' ? x.totale : null).filter((x) => x != null)
-    };
-    
+    let query_d = `
+    SELECT 
+      anno,
+      genere,
+      SUM(n_dottorandi) as totale
+    FROM dottorandi
+    GROUP BY anno, genere
+    HAVING genere = 'F' OR genere = 'M'
+    ORDER BY anno DESC;
+    `;
+
+    let query_dn = `
+    SELECT 
+      anno,
+      genere,
+      SUM(n_dottori) as totale
+    FROM dottori
+    GROUP BY anno, genere
+    HAVING genere = 'F' OR genere = 'M'
+    ORDER BY anno DESC;
+    `;
+
+    let query_a = `
+    SELECT 
+      anno,
+      genere,
+      SUM(n_staff) as totale
+    FROM academic_staff
+    GROUP BY anno, genere
+    HAVING genere = 'F' OR genere = 'M'
+    ORDER BY anno DESC;
+    `;
+
+    let [results_i] = await db.query(query_i);
+    let [results_l] = await db.query(query_l);
+    let [results_d] = await db.query(query_d);
+    let [results_dn] = await db.query(query_dn);
+    let [results_a] = await db.query(query_a);
+
+    const results = [
+      {
+        donne: results_i
+          .map((x) => (x.genere === "F" ? x.totale : null))
+          .filter((x) => x != null),
+        uomini: results_i
+          .map((x) => (x.genere === "M" ? x.totale : null))
+          .filter((x) => x != null),
+          text: 'Immatricolati'
+      },
+      {
+        donne: results_l
+          .map((x) => (x.genere === "F" ? x.totale : null))
+          .filter((x) => x != null),
+        uomini: results_l
+          .map((x) => (x.genere === "M" ? x.totale : null))
+          .filter((x) => x != null),
+          text: 'Laureati'
+      },
+      {
+        donne: results_d
+          .map((x) => (x.genere === "F" ? x.totale : null))
+          .filter((x) => x != null),
+        uomini: results_d
+          .map((x) => (x.genere === "M" ? x.totale : null))
+          .filter((x) => x != null),
+          text: 'Dottorandi'
+      },
+      {
+        donne: results_dn
+          .map((x) => (x.genere === "F" ? x.totale : null))
+          .filter((x) => x != null),
+        uomini: results_dn
+          .map((x) => (x.genere === "M" ? x.totale : null))
+          .filter((x) => x != null),
+          text: 'Dottori'
+      },
+      {
+        donne: results_a
+          .map((x) => (x.genere === "F" ? x.totale : null))
+          .filter((x) => x != null),
+        uomini: results_a
+          .map((x) => (x.genere === "M" ? x.totale : null))
+          .filter((x) => x != null),
+          text: 'Professori e Ricercatori'
+      },
+    ];
 
     res.json(results);
   } catch (error) {

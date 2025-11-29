@@ -89,6 +89,54 @@
   font-weight: 500;
 }
 
+.map-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow-sm);
+  animation: slideUp 0.6s ease-in-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.map-description p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+  transition: color var(--transition-fast);
+}
+
+.map-description p:first-child {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.map-description p:hover {
+  color: var(--text-primary);
+}
+
+/* Evidenzia concetti chiave */
+.map-description strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 
 .leaflet-control-attribution {
   display: none !important;
