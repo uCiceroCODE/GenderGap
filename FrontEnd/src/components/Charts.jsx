@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Map from "./chartsComponents/Map";
 import "../styles/charts.css";
 import MainChart from "./chartsComponents/MainChart";
+import SecondaryChart from "./chartsComponents/SecondaryChart";
 
 export default function Charts() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -36,7 +37,7 @@ export default function Charts() {
 
       <div className="chart-container">
         <div className="chart-title">il Gender Gap</div>
-        
+        <SecondaryChart />
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import "../../styles/apexchart_custom.css"
-import { millify } from 'millify';
 
 const ColumnChart = ({data1, data2, label1, label2, categories, vertical}) => {
   const options = {
@@ -20,12 +19,12 @@ const ColumnChart = ({data1, data2, label1, label2, categories, vertical}) => {
     states: {
       hover: {
         filter: {
-          type: 'none'  
+          
         }
       },
       active: {
         filter: {
-          type: 'none'  
+          
         }
       }
     },
@@ -50,7 +49,7 @@ const ColumnChart = ({data1, data2, label1, label2, categories, vertical}) => {
     legend: {
       position: 'bottom',
        onItemClick: {
-      toggleDataSeries: false
+      toggleDataSeries: true
     },
       labels: {
       colors: ['#ffffff', '#ffffff']
@@ -65,7 +64,7 @@ const ColumnChart = ({data1, data2, label1, label2, categories, vertical}) => {
       intersect: false,
       y: {
         formatter: function (val) {
-          return millify(val).toString();
+          return (val).toString() + '%';
         }
       }
     },
