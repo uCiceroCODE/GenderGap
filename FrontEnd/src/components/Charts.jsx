@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Map from "./Map";
+import Map from "./chartsComponents/Map";
 import "../styles/charts.css";
-import BarChart from "./BarChart";
-import MainCharts from "./MainCharts";
+import MainChart from "./chartsComponents/MainChart";
 
 export default function Charts() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -23,17 +22,22 @@ export default function Charts() {
 
       {width > 1049 && (
         <div className="chart-container chart-container-map">
-           <div className="chart-title">Situzione del Digital Gender Gap negli atenei italiani</div>
+          <div className="chart-title">
+            Situzione del Digital Gender Gap negli atenei italiani
+          </div>
           <Map />
         </div>
       )}
 
-      <div className="chart-container" >
+      <div className="chart-container">
         <div className="chart-title">Alcuni dati riguardanti il Gender Gap</div>
-          <MainCharts />
-       </div>
+        <MainChart />
+      </div>
 
-
+      <div className="chart-container">
+        <div className="chart-title">il Gender Gap</div>
+        
+      </div>
     </section>
   );
 }

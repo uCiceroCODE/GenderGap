@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "../styles/mainCharts.css";
+import "../../styles/mainChart.css";
 import axios from "axios";
-import LineChart from "./charts/LineChart";
+import LineChart from "../chartsType/LineChart";
 
 
-export default function MainCharts() {
+export default function MainChart() {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

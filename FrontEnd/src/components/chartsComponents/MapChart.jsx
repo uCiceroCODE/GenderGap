@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import BarChart from "./BarChart";
+import BarChart from "../chartsType/BarChart";
 import axios from "axios";
 // import { millify } from 'millify';
 
@@ -40,8 +40,7 @@ const MapChart = ({ region }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  // console.log(millify(Math.random() * 1000000 + 10000));
-
+  
   if (loading) return <p>Caricamento...</p>;
 
   return (

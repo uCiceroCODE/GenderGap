@@ -75,17 +75,10 @@ ORDER BY genere;
     // console.log({ donne: [results[0].t_i, results[0].t_l, results[0].t_dn, results[0].t_di, results[0].t_s]});
     // console.log({ uomini: [results[1].t_i, results[1].t_l, results[1].t_dn, results[1].t_di, results[1].t_s]});
 
-    res.json(
-      regione != "VALLE D'AOSTA"
-        ? {
-            uomini: [results[0].t_i, results[0].t_l, results[0].t_s],
-            donne: [results[1].t_i, results[1].t_l, results[1].t_s],
-          }
-        : {
-            uomini: [results[0].t_s],
-            donne: [results[1].t_s],
-          }
-    );
+    res.json({
+      uomini: [results[0].t_i, results[0].t_l, results[0].t_s],
+      donne: [results[1].t_i, results[1].t_l, results[1].t_s],
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -162,7 +155,7 @@ router.get("/getByYearICTS", async (req, res) => {
         uomini: results_i
           .map((x) => (x.genere === "M" ? x.totale : null))
           .filter((x) => x != null),
-          text: 'Immatricolati'
+        text: "Immatricolati",
       },
       {
         donne: results_l
@@ -171,7 +164,7 @@ router.get("/getByYearICTS", async (req, res) => {
         uomini: results_l
           .map((x) => (x.genere === "M" ? x.totale : null))
           .filter((x) => x != null),
-          text: 'Laureati'
+        text: "Laureati",
       },
       {
         donne: results_d
@@ -180,7 +173,7 @@ router.get("/getByYearICTS", async (req, res) => {
         uomini: results_d
           .map((x) => (x.genere === "M" ? x.totale : null))
           .filter((x) => x != null),
-          text: 'Dottorandi'
+        text: "Dottorandi",
       },
       {
         donne: results_dn
@@ -189,7 +182,7 @@ router.get("/getByYearICTS", async (req, res) => {
         uomini: results_dn
           .map((x) => (x.genere === "M" ? x.totale : null))
           .filter((x) => x != null),
-          text: 'Dottori'
+        text: "Dottori",
       },
       {
         donne: results_a
@@ -198,10 +191,86 @@ router.get("/getByYearICTS", async (req, res) => {
         uomini: results_a
           .map((x) => (x.genere === "M" ? x.totale : null))
           .filter((x) => x != null),
-          text: 'Professori e Ricercatori'
+        text: "Professori e Ricercatori",
       },
     ];
 
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/getWomenPer", async (req, res) => {
+  try {
+    let query_i = `
+    SELECT 
+    anno,cod_foet2013,
+    ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN n_immatricolati ELSE 0 END) / 
+          NULLIF(SUM(n_immatricolati), 0), 2) AS perc_donne_stem
+    FROM immatricolati
+    GROUP BY anno, cod_foet2013
+    ORDER BY anno;
+
+    `;
+
+    let query_l = `
+    SELECT 
+    anno,cod_foet2013,
+    ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN n_laureati ELSE 0 END) / 
+          NULLIF(SUM(n_laureati), 0), 2) AS perc_donne_stem
+    FROM laureati
+    GROUP BY anno, cod_foet2013 
+    ORDER BY anno;
+    `;
+
+    let query_d = `
+   SELECT 
+    anno,cod_foet2013,
+    ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN n_dottorandi ELSE 0 END) / 
+          NULLIF(SUM(n_dottorandi), 0), 2) AS perc_donne_stem
+    FROM dottorandi
+    GROUP BY anno, cod_foet2013
+    ORDER BY anno;
+    `;
+
+    let query_dn = `
+    SELECT 
+    anno,cod_foet2013,
+    ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN n_dottori ELSE 0 END) / 
+          NULLIF(SUM(n_dottori), 0), 2) AS perc_donne_stem
+    FROM dottori
+    GROUP BY anno, cod_foet2013
+    ORDER BY anno;
+    `;
+
+    let query_a = `
+    SELECT 
+    anno,cod_sd,
+    ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN n_staff ELSE 0 END) / 
+          NULLIF(SUM(n_staff), 0), 2) AS perc_donne_stem
+    FROM academic_staff
+    GROUP BY anno, cod_sd
+    ORDER BY anno;
+    `;
+
+    let [results_i] = await db.query(query_i);
+    let [results_l] = await db.query(query_l);
+    let [results_d] = await db.query(query_d);
+    let [results_dn] = await db.query(query_dn);
+    let [results_a] = await db.query(query_a);
+
+    const results = {
+      immatricolati: results_i,
+
+      laureati: results_l,
+
+      dottoranti: results_d,
+
+      dottori: results_dn,
+
+      staff: results_a,
+    };
     res.json(results);
   } catch (error) {
     res.status(500).json({ error: error.message });

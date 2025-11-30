@@ -1,10 +1,10 @@
 // Map.jsx
 import React, { useState, useEffect } from "react";
-import { MapContainer, GeoJSON, useMap, AttributionControl } from "react-leaflet";
+import { MapContainer, GeoJSON, useMap } from "react-leaflet";
 import L from "leaflet";
-import italiaGeojson from "../../public/it.json";
+import italiaGeojson from "../../../public/it.json";
 import "leaflet/dist/leaflet.css";
-import '../styles/map.css'
+import '../../styles/map.css'
 import MapChart from "./MapChart";
 
 

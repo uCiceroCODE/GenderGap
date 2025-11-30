@@ -1,9 +1,9 @@
 import React from "react";
 import Chart from "react-apexcharts";
-import "../styles/apexchart_custom.css"
+import "../../styles/apexchart_custom.css"
 import { millify } from 'millify';
 
-const BarChart = ({data1, data2, label1, label2, categories, vertical}) => {
+const ColumnChart = ({data1, data2, label1, label2, categories, vertical}) => {
   const options = {
     stroke: {
       width: 1, 
@@ -13,6 +13,8 @@ const BarChart = ({data1, data2, label1, label2, categories, vertical}) => {
     chart: {
       type: 'bar',
       height: 350,
+      stacked: true,
+      stackType: "100%"
     },
 
     states: {
@@ -104,4 +106,4 @@ const BarChart = ({data1, data2, label1, label2, categories, vertical}) => {
   return <Chart options={options} series={series} type="bar" height={350} />;
 };
 
-export default BarChart;
+export default ColumnChart;
