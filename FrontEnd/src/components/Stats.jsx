@@ -1,6 +1,6 @@
 import React from 'react'
 import "../styles/stats.css"
-import Count from './animations/Count'
+import Count from './utilities/Count'
 
 export default function Stats() {
 

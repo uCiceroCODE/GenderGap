@@ -3,7 +3,6 @@ import Map from "./chartsComponents/Map";
 import "../styles/charts.css";
 import MainChart from "./chartsComponents/MainChart";
 import SecondaryChart from "./chartsComponents/SecondaryChart";
-import GenderGapFAQ from "./GenderGapFAQ";
 
 export default function Charts() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -23,10 +22,6 @@ export default function Charts() {
       </p>
 
 
-    {/* <div className="chart-container">
-        <GenderGapFAQ />
-      </div> */}
-
       {width > 1049 && (
         <div className="chart-container chart-container-map">
           <div className="chart-title">
@@ -45,6 +40,7 @@ export default function Charts() {
         <div className="chart-title">Confronto tra materie STEM | ICT con il maggior Gender Gap negli anni</div>
         <SecondaryChart w={width} />
       </div>
+      
     </section>
   );
 }

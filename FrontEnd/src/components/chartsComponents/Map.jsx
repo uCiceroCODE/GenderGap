@@ -6,6 +6,7 @@ import italiaGeojson from "../../../public/it.json";
 import "leaflet/dist/leaflet.css";
 import '../../styles/map.css'
 import MapChart from "./MapChart";
+import Dropdown from "../utilities/Dropdown";
 
 
 
@@ -125,6 +126,20 @@ const Map = () => {
     fillOpacity: 1
   };
 
+  const options = [
+    { value: "2013", label: "2013" },
+    { value: "2014", label: "2014" },
+    { value: "2015", label: "2015" },
+    { value: "2016", label: "2016" },
+    { value: "2017", label: "2017" },
+    { value: "2018", label: "2018" },
+    { value: "2019", label: "2019" },
+    { value: "2020", label: "2020" },
+    { value: "2021", label: "2021" },
+    { value: "2022", label: "2022" },
+    { value: "2023", label: "2023 " },
+  ]
+
   return (
     <div>
     
@@ -132,6 +147,15 @@ const Map = () => {
     
     <div className="map-main-container">
 
+      <div className="filter-map-container">
+        <Dropdown options={options} df={'ALL'} title={"Seleziona l'anno di visualizzazione:"}/>
+      </div>
+    
+
+
+    <div className="content-map-container">
+
+    
       <div className="map-container">
         <div className="map-header">
           <h2>Mappa Interattiva Italia</h2>
@@ -175,6 +199,8 @@ const Map = () => {
               lungo la carriera accademica: le donne sono già minoranza tra gli immatricolati e 
               diventano ancora più sottorappresentate tra laureati e soprattutto tra professori e ricercatori, 
               segno di barriere strutturali e culturali che ostacolano la progressione femminile nel digitale</p>
+      </div>
+      
       </div>
 
 

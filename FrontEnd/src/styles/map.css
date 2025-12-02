@@ -2,10 +2,10 @@
 
 .map-main-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 550px;
+  height: 750px;
   width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -17,6 +17,25 @@
   flex-direction: column;
   height: 420px;
   width: 420px;
+}
+
+.filter-map-container{
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end ;
+  margin: 1.4rem auto;
+}
+
+.content-map-container{
+   justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 80%;
 }
 
 .map-chart-container {
