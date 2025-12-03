@@ -131,6 +131,12 @@
   border-left: 4px solid var(--primary);
   box-shadow: var(--shadow-sm);
   animation: slideUp 0.6s ease-in-out;
+  transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
+}
+
+.map-description:hover {
+ transform: scale(1.01);
 }
 
 @keyframes slideUp {
@@ -153,29 +159,18 @@
   transition: color var(--transition-fast);
 }
 
+
+
 .map-description p:first-child {
   font-weight: 500;
   color: var(--text-primary);
   font-size: 15px;
 }
 
-.map-description p:hover {
-  color: var(--text-primary);
-}
-
-/* Evidenzia concetti chiave */
-.map-description strong {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-
 .leaflet-control-attribution {
   display: none !important;
 }
 
-
-/* Responsive design */
 @media (max-width: 768px) {
   .map-content {
     flex-direction: column;

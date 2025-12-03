@@ -1,4 +1,3 @@
-/* Colonna verticale, una card per riga */
 #gender-gap-faq{
      background: linear-gradient(
     135deg,
@@ -16,7 +15,6 @@
   margin-top: 2.5rem;
 }
 
-/* Leggero tweak per differenziarle dagli approfondimenti se vuoi */
 .gg-faq-item {
   border-left-width: 4px;
   border-left-style: solid;
@@ -31,7 +29,7 @@
   border-left-color: var(--accent);
 }
 
-/* Su mobile mantiene lo stesso layout (già verticale) */
+
 @media (max-width: 768px) {
   .gg-faq-column {
     gap: 1.5rem;

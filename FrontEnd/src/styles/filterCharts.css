@@ -10,7 +10,10 @@
 }
     
 .filter-chart{
-
+  width: 100%;
+  height: 450px;
+  padding: 1.2rem;
+  
 }
 
 

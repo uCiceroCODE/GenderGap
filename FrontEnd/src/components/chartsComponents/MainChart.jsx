@@ -3,28 +3,9 @@ import "../../styles/mainChart.css";
 import axios from "axios";
 import LineChart from "../chartsType/LineChart";
 
-export default function MainChart({w}) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const containerRef = useRef(null); 
 
-  const toggleWillChange = useCallback((enable) => {
-    if (containerRef.current) {
-      containerRef.current.style.willChange = enable ? 'transform opacity' : 'auto';
-    }
-  }, []);
+ const dataLen = 5;
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/queries/getByYearICTS`)
-      .then((response) => setData(response.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
-
-  
-  const dataLen = 5;
    const cardsData = [
     {
       titolo: "Immatricolati STEM | ICT",
@@ -54,6 +35,29 @@ export default function MainChart({w}) {
   ];
 
 
+export default function MainChart({w}) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef(null); 
+
+  const toggleWillChange = useCallback((enable) => {
+    if (containerRef.current) {
+      containerRef.current.style.willChange = enable ? 'transform opacity' : 'auto';
+    }
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/queries/getByYearICTS`)
+      .then((response) => setData(response.data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  
+ 
+
   const handlePrev = useCallback(() => {
     setCurrentIndex((prev) => prev > 0 ? prev - 1 : dataLen - 1);
     toggleWillChange(true);
@@ -75,7 +79,7 @@ export default function MainChart({w}) {
     if (diff === 0) return "active";
     if (diff === dataLen - 1) return "prev";
     return "next";
-  }, [currentIndex, dataLen]);
+  }, [currentIndex]);
 
   if (loading) return <div>Loading...</div>;
 

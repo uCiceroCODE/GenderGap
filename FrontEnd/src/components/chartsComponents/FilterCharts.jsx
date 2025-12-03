@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Dropdown from '../utilities/Dropdown'
 import "../../styles/filterCharts.css"
+import axios from 'axios';
+import FilterChart from '../chartsType/FilterChart';
 
 const options_years = [
     { value: "2013", label: "2013" },
@@ -65,10 +67,31 @@ const options_years = [
 export default function FilterCharts() {
   
   const [year, setYear]= useState("ALL")
-  const [classe, setClasse]= useState("ALL")
+  const [classe, setClasse]= useState("1")
   const [genere, setGenere]= useState("ALL")
   const [regione, setRegione]= useState("ALL")
   const [area, setArea]= useState("ALL")
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+
+  console.log(data);
+  
+
+
+    useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/filter/getByFilter` , {params: {
+        year: year,
+        regione:regione,
+        classe:classe,
+        genere:genere,
+      }})
+      .then((response) => setData(response.data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [year, regione, classe, genere]);
+
     
 return (    
 
@@ -76,15 +99,20 @@ return (
     
         <div className='filter-choose'>
             <Dropdown options={options_years} title={"Seleziona Anno:"} df={'ALL'} setData={setYear} desc={'filter-year'}/>
-            <Dropdown options={options_type} title={"Seleziona Classe:"} df={'ALL'} setData={setClasse} desc={'filter-class'}/>
+            <Dropdown options={options_type} title={"Seleziona Classe:"} df={'1'} setData={setClasse} desc={'filter-class'}/>
             <Dropdown options={options_gender} title={"Seleziona Genere:"} df={'ALL'} setData={setGenere} desc={'filter-gender'}/>
             <Dropdown options={options_regione} title={"Seleziona Regione:"} df={'ALL'} setData={setRegione} desc={'filter-regione'}/>
             <Dropdown options={options_area_geo} title={"Seleziona Area Geo:"} df={'ALL'} setData={setArea} desc={'filter-area'}/>
         </div>
     
         <div className='filter-chart'>
-
-    
+          <FilterChart 
+          vertical={true}
+                categories={[1,2,3,4,5,6]}
+                data1={[4,32,4,2,54,2]}
+                data2={[41,2,44,22,5,2]}
+                label1="text 1"
+                label2="text 2"/>
         </div>
     </div>
   )
