@@ -1,4 +1,3 @@
-// components/LineChart.jsx
 import React, { useMemo } from "react";
 import Chart from "react-apexcharts";
 import "../../styles/apexchart_custom.css"

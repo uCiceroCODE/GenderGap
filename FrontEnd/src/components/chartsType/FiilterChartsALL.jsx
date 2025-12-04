@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import "../../styles/apexchart_custom.css"
 import { millify } from 'millify';
 
-const FilterChart = React.memo(({ 
+const FilterChartAll = React.memo(({ 
   data1, 
   data2, 
   label1, 
@@ -127,4 +127,4 @@ const FilterChart = React.memo(({
 });
 
 
-export default FilterChart
+export default FilterChartAll

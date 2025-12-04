@@ -14,7 +14,7 @@ function Dropdown({ options, title, df , setData, desc}) {
           onChange={(e) => {setSelected(e.target.value); setData(e.target.value)}}
           className="dropdown"
         >
-          <option value="" >{df}</option>
+          <option value={df} >{df}</option>
           {options.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}

@@ -7,7 +7,9 @@ router.get("/getByFilter", async (req, res) => {
     const { year, regione, classe, genere } = req.query;
 
     // console.log(year, regione, classe, genere);
-
+    // console.log(req.query);
+    
+    
     const tables = {
       1: "immatricolati",
       2: "laureati",
@@ -15,10 +17,6 @@ router.get("/getByFilter", async (req, res) => {
       4: "dottori",
       5: "staff",
     };
-
-    if (!tables[classe] && classe.toUpperCase() != "ALL") {
-      return res.status(400).json({ error: "Classe deve essere 1-5" });
-    }
 
     let queryTail = "";
     let regionCheck = false;
@@ -53,11 +51,13 @@ router.get("/getByFilter", async (req, res) => {
 
     queryTail += ` GROUP BY tb.anno ORDER BY tb.anno;`;
 
-    console.log(queryTail);
+    // console.log(queryTail);
 
     let query = "";
 
-    if (classe.toUpperCase() != "ALL") {
+    // console.log(classe);
+    
+    if (classe != undefined && classe != 'ALL') {
       query = `
       SELECT 
         anno,
@@ -71,11 +71,11 @@ router.get("/getByFilter", async (req, res) => {
         ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN tb.n_${
           tables[classe]
         } ELSE 0 END) / 
-              NULLIF(SUM(n_${tables[classe]}), 0), 2) AS percentuale_donne,
+              NULLIF(SUM(n_${tables[classe]}), 0), 2) AS perc_donne,
         ROUND(100.0 * SUM(CASE WHEN genere = 'M' THEN tb.n_${
           tables[classe]
         } ELSE 0 END) / 
-              NULLIF(SUM(n_${tables[classe]}), 0), 2) AS percentuale_uomini
+              NULLIF(SUM(n_${tables[classe]}), 0), 2) AS perc_uomini
         FROM ${
           tables[classe].toUpperCase() == "STAFF"
             ? "academic_staff"
@@ -99,6 +99,9 @@ router.get("/getByFilter", async (req, res) => {
 
       await Promise.all(
         Object.entries(tables).map(async ([key, value]) => {
+          // console.log(value);
+          
+
           query = `
         SELECT 
           anno,
@@ -106,11 +109,11 @@ router.get("/getByFilter", async (req, res) => {
           SUM(CASE WHEN genere = 'M' THEN tb.n_${value} ELSE 0 END) AS uomini,
           SUM(tb.n_${value}) AS totale,
           ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN tb.n_${value} ELSE 0 END) / 
-                NULLIF(SUM(n_${value}), 0), 2) AS percentuale_donne,
+                NULLIF(SUM(n_${value}), 0), 2) AS perc_donne,
           ROUND(100.0 * SUM(CASE WHEN genere = 'M' THEN tb.n_${
             value
           } ELSE 0 END) / 
-              NULLIF(SUM(n_${value}), 0), 2) AS percentuale_uomini
+              NULLIF(SUM(n_${value}), 0), 2) AS perc_uomini
           FROM ${
             value.toUpperCase() == "STAFF" ? "academic_staff" : value
           } AS tb
@@ -118,14 +121,42 @@ router.get("/getByFilter", async (req, res) => {
 
           query += queryTail;
 
+          // console.log(query);
+          
+
           const [results] = await db.query(query);
 
           totalRecords += results.length;
-          tempRes.push(results);
+          let accM = 0
+          let accF = 0
+          let accPM = 0
+          let accPF = 0
+          let n = 0
+          let anni = []
+          results.map((x, idx) => {
+            n = idx
+            accM += parseInt(x.uomini)
+            accF += parseInt(x.donne)
+            accPF += parseFloat(x.perc_donne)
+            accPM += parseFloat(x.perc_uomini)
+            anni.push(x.anno)
+          })
+          // console.log(accM, accF, accPM/n, accPF/n, n, anni);
+          
+          let commit = {
+            anni: anni,
+            uomini: accM,
+            donne: accF,
+            perc_uomini: (accPM/n).toFixed(2),
+            perc_donne: (accPF/n).toFixed(2),
+          }
+
+          tempRes.push({data:commit, type:key});
         })
       );
       // console.log(tempRes);
 
+      
       res.json({
         data: [...tempRes],
         totalRecords: totalRecords,

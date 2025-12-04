@@ -3,11 +3,9 @@ import Chart from "react-apexcharts";
 import "../../styles/apexchart_custom.css"
 import { millify } from 'millify';
 
-const FilterChart = React.memo(({ 
+const FilterChartSingle = React.memo(({ 
   data1, 
-  data2, 
   label1, 
-  label2, 
   categories, 
   vertical 
 }) => {
@@ -100,12 +98,8 @@ const FilterChart = React.memo(({
     {
       name: label1,
       data: data1,
-    },
-    {
-      name: data2 &&  label2,
-      data: data2 &&  data2,
-    },
-  ], [data1, data2, label1, label2]);
+    }
+  ], [data1,  label1]);
 
   return (
     <Chart 
@@ -118,13 +112,11 @@ const FilterChart = React.memo(({
 }, (prevProps, nextProps) => {
   return (
     JSON.stringify(prevProps.data1) === JSON.stringify(nextProps.data1) &&
-    JSON.stringify(prevProps.data2) === JSON.stringify(nextProps.data2) &&
     JSON.stringify(prevProps.categories) === JSON.stringify(nextProps.categories) &&
     prevProps.label1 === nextProps.label1 &&
-    prevProps.label2 === nextProps.label2 &&
     prevProps.vertical === nextProps.vertical
   );
 });
 
 
-export default FilterChart
+export default FilterChartSingle
