@@ -59,11 +59,8 @@ const options_regione = [
 ];
 
 const options_area_geo = [
-  { value: "1", label: "NORD-OVEEST" },
-  { value: "2", label: "NORD-EST" },
-  { value: "3", label: "CENTRO" },
-  { value: "4", label: "SUD" },
-  { value: "5", label: "ISOLE" },
+  { value: "1", label: "ICT" },
+  { value: "2", label: "STEAM" },
 ];
 
 export default function FilterCharts() {
@@ -71,7 +68,7 @@ export default function FilterCharts() {
   const [classe, setClasse] = useState("ALL");
   const [genere, setGenere] = useState("ALL");
   const [regione, setRegione] = useState("ALL");
-  const [area, setArea] = useState("ALL");
+  const [settore, setSettore] = useState("ALL");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -80,7 +77,7 @@ export default function FilterCharts() {
       setLoading(true);
       try {
         const result = await getCachedData(
-          `http://localhost:8080/api/filter/getByFilter?year=${year}&regione=${regione}&classe=${classe}&genere=${genere}`,
+          `http://localhost:8080/api/filter/getByFilter?year=${year}&regione=${regione}&classe=${classe}&genere=${genere}&settore=${settore}`,
           {
             cacheTTL: 5 * 60 * 1000,
           }
@@ -94,7 +91,7 @@ export default function FilterCharts() {
     };
 
     fetchData();
-  }, [year, regione, classe, genere]);
+  }, [year, regione, classe, genere, settore]);
 
   // console.log(data);
 
@@ -102,7 +99,13 @@ export default function FilterCharts() {
     // console.log(data);
 
     if (!data?.data || loading) {
-      return <div>Caricamento...</div>;
+      return <FilterChartAll
+                    vertical={true}
+                    categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
+                    data1={[0,0,0,0]}
+                    data2={[0,0,0,0]}
+                    label1="uomini"
+                    label2="donne"/>;
     }
 
     if (data.filters.classe != "ALL") {
@@ -120,8 +123,7 @@ export default function FilterCharts() {
           perc_data1.push(x.perc_donne);
           perc_data2.push(x.perc_uomini);
         } else if (
-          data.filters.classe != "ALL" &&
-          data.filters.genere != "ALL"
+          data.filters.classe != "ALL" && data.filters.genere != "ALL"
         ) {
           category.push(x.anno);
           data1.push(x[data.filters.genere == "M" ? "uomini" : "donne"]);
@@ -199,7 +201,6 @@ export default function FilterCharts() {
    
   };
 
-  drawChart();
 
   return (
     <div className="filter-container">
@@ -240,9 +241,9 @@ export default function FilterCharts() {
           options={options_area_geo}
           title={"Seleziona Area Geo:"}
           df={"ALL"}
-          setData={setArea}
+          setData={setSettore}
           desc={"filter-area"}
-          state={area}
+          state={settore}
         />
       </div>
 

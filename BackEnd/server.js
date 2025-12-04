@@ -24,6 +24,11 @@ app.get('/health', (req, res) => {
     res.json({ status: 'Server is running ✓' });
 });
 
+//routes
+app.use('/api/queries', require('./routes/queries'));
+app.use('/api/filter', require('./routes/filter'));
+
+
 // Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -33,9 +38,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-//routes
-app.use('/api/queries', require('./routes/queries'));
-app.use('/api/filter', require('./routes/filter'));
+
 
 
 const PORT = process.env.PORT || 8080;

@@ -4,12 +4,20 @@ const db = require("../config/database");
 
 router.get("/getByFilter", async (req, res) => {
   try {
-    const { year, regione, classe, genere } = req.query;
+    const { year, regione, classe, genere, settore} = req.query;
 
-    // console.log(year, regione, classe, genere);
+    console.log(year, regione, classe, genere, settore);
     // console.log(req.query);
-    
-    
+
+    // Input validation - prevent crashes from missing parameters
+    if (!year || !regione || !genere || !settore) {
+      return res.status(400).json({
+        error: "Parametri mancanti",
+        required: ["year", "regione", "genere", "settore"],
+        received: { year, regione, genere, settore}
+      });
+    }
+
     const tables = {
       1: "immatricolati",
       2: "laureati",
@@ -19,74 +27,86 @@ router.get("/getByFilter", async (req, res) => {
     };
 
     let queryTail = "";
+    let queryParams = []; // Array to hold parameterized values
+    let sectorCheck = settore.toUpperCase() != "ALL"
     let regionCheck = false;
     let yearCheck = false;
     let genderCheck = false;
 
+    // Using ? placeholders instead of string interpolation to prevent SQL injection
     if (regione.toUpperCase() !== "ALL") {
       queryTail += ` JOIN atenei AS a ON tb.ateneo_cod = a.ateneo_cod
-                  WHERE UPPER(a.regione) = '${regione.toUpperCase()}' AND tb.ateneo_cod != 'TTTTT'`;
+                  WHERE UPPER(a.regione) = UPPER(?) AND tb.ateneo_cod != 'TTTTT'`;
+      queryParams.push(regione);
       regionCheck = true;
     }
 
     if (year.toUpperCase() !== "ALL") {
       if (!regionCheck) {
-        queryTail += ` WHERE tb.anno = '${year}' AND tb.ateneo_cod != 'TTTTT'`;
+        queryTail += ` WHERE tb.anno = ? AND tb.ateneo_cod != 'TTTTT'`;
+        queryParams.push(year);
         yearCheck = true;
       } else if (regionCheck) {
-        queryTail += ` AND tb.anno = '${year}'`;
+        queryTail += ` AND tb.anno = ?`;
+        queryParams.push(year);
         yearCheck = true;
       }
     }
 
     if (genere.toUpperCase() !== "ALL") {
       if (!regionCheck && !yearCheck) {
-        queryTail += ` WHERE tb.genere = '${genere}' AND tb.ateneo_cod != 'TTTTT'`;
+        queryTail += ` WHERE tb.genere = ? AND tb.ateneo_cod != 'TTTTT'`;
+        queryParams.push(genere);
         genderCheck = true;
       } else if (regionCheck && yearCheck) {
-        queryTail += ` AND tb.genere = '${genere}'`;
+        queryTail += ` AND tb.genere = ?`;
+        queryParams.push(genere);
         genderCheck = true;
       }
     }
-
-    queryTail += ` GROUP BY tb.anno ORDER BY tb.anno;`;
 
     // console.log(queryTail);
 
     let query = "";
 
     // console.log(classe);
-    
+
     if (classe != undefined && classe != 'ALL') {
       query = `
       SELECT 
         anno,
-        SUM(CASE WHEN genere = 'F' THEN tb.n_${
-          tables[classe]
+        SUM(CASE WHEN genere = 'F' THEN tb.n_${tables[classe]
         } ELSE 0 END) AS donne,
-        SUM(CASE WHEN genere = 'M' THEN tb.n_${
-          tables[classe]
+        SUM(CASE WHEN genere = 'M' THEN tb.n_${tables[classe]
         } ELSE 0 END) AS uomini,
         SUM(tb.n_${tables[classe]}) AS totale,
-        ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN tb.n_${
-          tables[classe]
+        ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN tb.n_${tables[classe]
         } ELSE 0 END) / 
               NULLIF(SUM(n_${tables[classe]}), 0), 2) AS perc_donne,
-        ROUND(100.0 * SUM(CASE WHEN genere = 'M' THEN tb.n_${
-          tables[classe]
+        ROUND(100.0 * SUM(CASE WHEN genere = 'M' THEN tb.n_${tables[classe]
         } ELSE 0 END) / 
               NULLIF(SUM(n_${tables[classe]}), 0), 2) AS perc_uomini
-        FROM ${
-          tables[classe].toUpperCase() == "STAFF"
-            ? "academic_staff"
-            : tables[classe]
+        FROM ${tables[classe].toUpperCase() == "STAFF"
+          ? "academic_staff"
+          : tables[classe]
         } AS tb
       `;
 
-      query += queryTail;
+      
+          if(sectorCheck && !genderCheck && !yearCheck && !regionCheck)
+          {
+            query+= `${tables[classe].toUpperCase() == "STAFF" ? settore == 1 ? " WHERE cod_sd IN ('01','09')" : "" : " WHERE cod_foet2013 = '06'"}`
+          }
+          else if(sectorCheck)
+          {
+            query+= `${tables[classe].toUpperCase() == "STAFF" ? settore == 1 ? " AND cod_sd IN ('01','09')" : "" : " AND cod_foet2013 = '06'"}`
+          }
+         
+          query += queryTail;
+          query += ` GROUP BY tb.anno ORDER BY tb.anno;`;
 
-      // console.log("Query:", query, params);
-      const [results] = await db.query(query);
+      // console.log("Query:", query, queryParams);
+      const [results] = await db.query(query, queryParams);
 
       res.json({
         data: results,
@@ -100,7 +120,7 @@ router.get("/getByFilter", async (req, res) => {
       await Promise.all(
         Object.entries(tables).map(async ([key, value]) => {
           // console.log(value);
-          
+
 
           query = `
         SELECT 
@@ -110,21 +130,28 @@ router.get("/getByFilter", async (req, res) => {
           SUM(tb.n_${value}) AS totale,
           ROUND(100.0 * SUM(CASE WHEN genere = 'F' THEN tb.n_${value} ELSE 0 END) / 
                 NULLIF(SUM(n_${value}), 0), 2) AS perc_donne,
-          ROUND(100.0 * SUM(CASE WHEN genere = 'M' THEN tb.n_${
-            value
-          } ELSE 0 END) / 
+          ROUND(100.0 * SUM(CASE WHEN genere = 'M' THEN tb.n_${value
+            } ELSE 0 END) / 
               NULLIF(SUM(n_${value}), 0), 2) AS perc_uomini
-          FROM ${
-            value.toUpperCase() == "STAFF" ? "academic_staff" : value
-          } AS tb
+          FROM ${value.toUpperCase() == "STAFF" ? "academic_staff" : value
+            } AS tb
       `;
 
+          if(sectorCheck && !genderCheck && !yearCheck && !regionCheck)
+          {
+            query+= `${value.toUpperCase() == "STAFF" ? settore == 1 ? " WHERE cod_sd IN ('01','09')" : "" : " WHERE cod_foet2013 = '06'"}`
+          }
+          else if(sectorCheck)
+          {
+            query+= `${value.toUpperCase() == "STAFF" ? settore == 1 ? " AND cod_sd IN ('01','09')" : "" : " AND cod_foet2013 = '06'"}`
+          }
+         
           query += queryTail;
-
+          query += ` GROUP BY tb.anno ORDER BY tb.anno;`;
           // console.log(query);
-          
 
-          const [results] = await db.query(query);
+
+          const [results] = await db.query(query, queryParams);
 
           totalRecords += results.length;
           let accM = 0
@@ -142,21 +169,22 @@ router.get("/getByFilter", async (req, res) => {
             anni.push(x.anno)
           })
           // console.log(accM, accF, accPM/n, accPF/n, n, anni);
-          
+
+          // Prevent division by zero - use 0 if no results
           let commit = {
             anni: anni,
             uomini: accM,
             donne: accF,
-            perc_uomini: (accPM/n).toFixed(2),
-            perc_donne: (accPF/n).toFixed(2),
+            perc_uomini: n > 0 ? (accPM / n).toFixed(2) : "0.00",
+            perc_donne: n > 0 ? (accPF / n).toFixed(2) : "0.00",
           }
 
-          tempRes.push({data:commit, type:key});
+          tempRes.push({ data: commit, type: key });
         })
       );
       // console.log(tempRes);
 
-      
+
       res.json({
         data: [...tempRes],
         totalRecords: totalRecords,

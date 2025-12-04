@@ -86,7 +86,7 @@ router.get("/getByRegion", async (req, res) => {
   try {
     // console.log(req.query.year, req.query.regione );
 
-    const regione = req.query.regione.toUpperCase();
+    const regione = req.query.regione ? req.query.regione.toUpperCase() : "ITALIA";
     const anno = req.query.year ? req.query.year : 'ALL'
 
     // console.log(anno);
