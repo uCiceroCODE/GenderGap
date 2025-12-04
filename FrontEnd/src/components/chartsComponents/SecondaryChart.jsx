@@ -1,47 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect} from "react";
 import "../../styles/secondaryChart.css";
-import axios from "axios";
 import ColumnChart from "../chartsType/ColumnChart";
+import { getCachedData } from "../utilities/cache";
 
-export default function SecondaryChart({ w }) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentSubIndex, setCurrentSubIndex] = useState(0);
-
-  const containerRef = useRef(null);
-
-  const toggleWillChange = useCallback((enable) => {
-    if (containerRef.current) {
-      containerRef.current.style.willChange = enable
-        ? "transform opacity"
-        : "auto";
-    }
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/queries/getWomenPer`, {})
-      .then((response) => {
-        setData(() => {
-          const temp = [];
-          Object.entries(response.data).forEach(([, x]) => {
-            // console.log(chiave, x);
-            // console.log(x.anno);
-            temp.push({
-              anno: x.anno,
-              cod: x.cod,
-              value: x.PercCOD,
-            });
-
-            // console.log(temp);
-          });
-          return temp;
-        });
-      })
-      .catch((error) => console.error("Errore:", error))
-      .finally(() => setLoading(false));
-  }, []);
 
   const dataLen = 5;
   const cardsData = [{
@@ -60,32 +21,64 @@ export default function SecondaryChart({ w }) {
 
   }];
 
-  const handlePrev = useCallback(() => {
+
+export default function SecondaryChart({ w }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentSubIndex, setCurrentSubIndex] = useState(0);
+
+
+    useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await getCachedData('http://localhost:8080/api/queries/getWomenPer', {
+          cacheTTL: 5 * 60 * 1000 
+        });
+        setData(() => {
+          const temp = [];
+          Object.entries(result).forEach(([, x]) => {
+
+            // console.log(x.anno);
+            temp.push({
+              anno: x.anno,
+              cod: x.cod,
+              value: x.PercCOD,
+            });
+
+            // console.log(temp);
+          });
+          return temp;
+        })
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
+
+  const handlePrev = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : dataLen - 1));
-    toggleWillChange(true);
     setCurrentSubIndex(0);
-  }, [toggleWillChange, setCurrentSubIndex]);
+  }
 
-  const handleNext = useCallback(() => {
+  const handleNext = () => {
     setCurrentIndex((prev) => (prev < dataLen - 1 ? prev + 1 : 0));
-    toggleWillChange(true);
     setCurrentSubIndex(0);
-  }, [toggleWillChange, setCurrentSubIndex]);
+  }
 
-  useEffect(() => {
-    const timer = setTimeout(() => toggleWillChange(false), 50);
-    return () => clearTimeout(timer);
-  }, [currentIndex, setCurrentSubIndex, toggleWillChange]);
-
-  const getCardClass = useCallback(
+  const getCardClass = 
     (index) => {
       const diff = (index - currentIndex + dataLen) % dataLen;
       if (diff === 0) return "active";
       if (diff === dataLen - 1) return "prev";
       return "next";
-    },
-    [currentIndex]
-  );
+    }
 
   // console.log(data);
   // console.log(currentSubIndex);
@@ -93,7 +86,7 @@ export default function SecondaryChart({ w }) {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="secondary-containter" ref={containerRef}>
+    <div className="secondary-containter">
       <h1>Grafici</h1>
 
       <div className="secondary-all-containter">
@@ -126,7 +119,6 @@ export default function SecondaryChart({ w }) {
                           key={z}
                           onClick={() => {
                             currentSubIndex != z && setCurrentSubIndex(z);
-                            toggleWillChange(true);
                           }}
                         >
                           {x.cod[z] === "06" || x.cod[z] === "09"
@@ -141,15 +133,15 @@ export default function SecondaryChart({ w }) {
                     </div>
                     <h3>{cardsData[idx].titolo}</h3>
 
-                    {x.value[currentSubIndex] &&
+                    {/* {x.value[currentSubIndex] &&
                     w >= 900 &&
                     (idx == currentIndex ||
                       idx == currentIndex + 1 ||
-                      idx + 1 == currentIndex) ? (
+                      idx + 1 == currentIndex) ? ( */}
                       <ColumnChart
                         w={w}
                         categories={[...x.anno]}
-                        data1={[...x.value[currentSubIndex]]}
+                        data1={ [...x.value[currentSubIndex]]}
                         data2={[
                           ...x.value[currentSubIndex].map((w) =>
                             (100 - w).toFixed(2)
@@ -159,7 +151,8 @@ export default function SecondaryChart({ w }) {
                         label1={"Donne"}
                         label2={"Uomini"}
                       />
-                    ) : (
+                    {/* ) 
+                    : (
                       w < 900 &&
                       currentIndex == idx && (
                         <ColumnChart
@@ -176,7 +169,7 @@ export default function SecondaryChart({ w }) {
                           label2={"Donne"}
                         />
                       )
-                    )}
+                    )} */}
                   </div>
                 ))}
             </div>
@@ -199,7 +192,6 @@ export default function SecondaryChart({ w }) {
                 className={`dot ${idx === currentIndex ? "active" : ""}`}
                 onClick={() => {
                   setCurrentIndex(idx);
-                  toggleWillChange(true);
                 }}
               />
             ))}

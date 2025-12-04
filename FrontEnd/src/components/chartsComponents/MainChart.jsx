@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/mainChart.css";
-import axios from "axios";
+
 import LineChart from "../chartsType/LineChart";
+import { getCachedData } from "../utilities/cache";
 
 
  const dataLen = 5;
@@ -35,56 +36,53 @@ import LineChart from "../chartsType/LineChart";
   ];
 
 
-export default function MainChart({w}) {
+export default function MainChart() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const containerRef = useRef(null); 
-
-  const toggleWillChange = useCallback((enable) => {
-    if (containerRef.current) {
-      containerRef.current.style.willChange = enable ? 'transform opacity' : 'auto';
-    }
-  }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/queries/getByYearICTS`)
-      .then((response) => setData(response.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const result = await getCachedData('http://localhost:8080/api/queries/getByYearICTS', {
+        cacheTTL: 5 * 60 * 1000 
+      });
+      setData(result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  fetchData();
+}, []);
 
   
  
 
-  const handlePrev = useCallback(() => {
+  const handlePrev = () => {
     setCurrentIndex((prev) => prev > 0 ? prev - 1 : dataLen - 1);
-    toggleWillChange(true);
-  }, [toggleWillChange]);
+  }
 
-  const handleNext = useCallback(() => {
+  const handleNext = () => {
     setCurrentIndex((prev) => prev < dataLen - 1 ? prev + 1 : 0);
-    toggleWillChange(true);
-  }, [toggleWillChange]);
+  };
 
- 
-  useEffect(() => {
-    const timer = setTimeout(() => toggleWillChange(false), 50); 
-    return () => clearTimeout(timer);
-  }, [currentIndex, toggleWillChange]);
 
-  const getCardClass = useCallback((index) => {
+
+  const getCardClass = ((index) => {
     const diff = (index - currentIndex + dataLen) % dataLen;
     if (diff === 0) return "active";
     if (diff === dataLen - 1) return "prev";
     return "next";
-  }, [currentIndex]);
+  });
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="mainchart-containter" ref={containerRef}>
+    <div className="mainchart-containter" >
       <h1>Grafici</h1>
 
       <div className="mainchart-wrapper">
@@ -114,7 +112,7 @@ export default function MainChart({w}) {
             >
               <h3>{chart.text} STEM | ICT</h3>
 
-              {w >= 900 && (idx == currentIndex || idx == currentIndex + 1 || idx + 1 == currentIndex) ?
+              {/* {w >= 900 && (idx == currentIndex || idx == currentIndex + 1 || idx + 1 == currentIndex) ? */}
                 <LineChart
                 vertical={true}
                 categories={idx === 4 ? [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024] : [2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023]}
@@ -123,7 +121,8 @@ export default function MainChart({w}) {
                 label1="uomini"
                 label2="donne"
                 active={idx === currentIndex}
-              /> :  (w < 900 && currentIndex == idx) && <LineChart
+              /> 
+              {/* :  (w < 900 && currentIndex == idx) && <LineChart
                 vertical={true}
                 categories={idx === 4 ? [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024] : [2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023]}
                 data1={chart.uomini}
@@ -131,7 +130,8 @@ export default function MainChart({w}) {
                 label1="uomini"
                 label2="donne"
                 active={idx === currentIndex}
-              />}
+              />
+              } */}
             </div>
           ))}
         </div>
@@ -154,7 +154,6 @@ export default function MainChart({w}) {
             className={`dot ${idx === currentIndex ? "active" : ""}`}
             onClick={() => {
               setCurrentIndex(idx);
-              toggleWillChange(true);
             }}
           />
         ))}

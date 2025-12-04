@@ -21,6 +21,16 @@
   perspective: 1000px;
 }
 
+.secondary-stack-container .graph-card.prev {
+  z-index: 10;
+  transform: perspective(1000px) translate3d(-35px, -28px, 0) scale(0.92) rotateY(3deg);
+}
+
+.secondary-stack-container .graph-card.next {
+  z-index: 5;
+  transform: perspective(1000px) translate3d(58px, 35px, 0) scale(0.88) rotateY(-2deg);
+}
+
 
 .secondary-stack-index {
     display: flex;
@@ -29,7 +39,6 @@
     flex-direction: row;
     gap: 15px;
     font-weight: bold;
-    backdrop-filter: blur(20px);
 }
 
 
@@ -82,7 +91,6 @@
   padding: 1.5rem;
   transform: none !important;
   opacity: 1 !important;
-  transition: all;
   transition-duration: 0.5s;
 }
 

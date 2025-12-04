@@ -3,6 +3,7 @@ import Dropdown from '../utilities/Dropdown'
 import "../../styles/filterCharts.css"
 import axios from 'axios';
 import FilterChart from '../chartsType/FilterChart';
+import { getCachedData } from '../utilities/cache';
 
 const options_years = [
     { value: "2013", label: "2013" },
@@ -75,22 +76,25 @@ export default function FilterCharts() {
   const [loading, setLoading] = useState(true)
 
 
-  console.log(data);
+  useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const result = await getCachedData(`http://localhost:8080/api/filter/getByFilter?year=${year}&regione=${regione}&classe=${classe}&genere=${genere}`, {
+        cacheTTL: 5 * 60 * 1000 
+      });
+      setData(result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   
+  fetchData();
+}, [year, regione, classe, genere]);
 
-
-  //   useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8080/api/filter/getByFilter` , {params: {
-  //       year: year,
-  //       regione:regione,
-  //       classe:classe,
-  //       genere:genere,
-  //     }})
-  //     .then((response) => setData(response.data))
-  //     .catch(console.error)
-  //     .finally(() => setLoading(false));
-  // }, [year, regione, classe, genere]);
+// console.log(data);
 
     
 return (    
