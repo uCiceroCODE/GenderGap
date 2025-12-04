@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Dropdown from "../utilities/Dropdown";
 import "../../styles/filterCharts.css";
-import axios from "axios";
 import FilterChart from "../chartsType/FilterChart";
 import { getCachedData } from "../utilities/cache";
 import FilterChartSingle from "../chartsType/FilterChartSingle";
@@ -60,7 +59,6 @@ const options_regione = [
 
 const options_area_geo = [
   { value: "1", label: "ICT" },
-  { value: "2", label: "STEAM" },
 ];
 
 export default function FilterCharts() {
