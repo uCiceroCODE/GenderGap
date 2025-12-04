@@ -7,7 +7,8 @@ const FilterChartSingle = React.memo(({
   data1, 
   label1, 
   categories, 
-  vertical 
+  vertical,
+  barColor
 }) => {
   
   const options = useMemo(() => ({
@@ -46,6 +47,13 @@ const FilterChartSingle = React.memo(({
           position: 'top'
         }
       },
+      colors: {
+      ranges: [{
+        from: 0,
+        to: Infinity,
+        color: barColor || '#008ffbd9' 
+      }]
+    }
     },
 
     dataLabels: {

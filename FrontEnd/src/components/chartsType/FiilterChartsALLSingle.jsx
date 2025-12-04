@@ -7,7 +7,8 @@ const FilterChartAllSingle = React.memo(({
   data1,  
   label1, 
   categories, 
-  vertical 
+  vertical,
+  barColor
 }) => {
   
   const options = useMemo(() => ({
@@ -21,7 +22,7 @@ const FilterChartAllSingle = React.memo(({
       height: 350,
       toolbar: { show: false}, 
       animations: { enabled: true }, 
-      sparkline: { enabled: false }
+      sparkline: { enabled: false },
     },
 
     states: {
@@ -44,7 +45,14 @@ const FilterChartAllSingle = React.memo(({
         endingShape: 'rounded',
         dataLabels: {
           position: 'top'
-        }
+        },
+        colors: {
+      ranges: [{
+        from: 0,
+        to: Infinity,
+        color: barColor || '#008ffbd9' 
+      }]
+    }
       },
     },
 

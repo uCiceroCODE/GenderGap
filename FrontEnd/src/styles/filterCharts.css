@@ -1,6 +1,6 @@
 .filter-container{
     width: 100%;
-    height: 650px;
+    height: 550px;
 }
     
 .filter-choose{
@@ -10,11 +10,15 @@
 }
     
 .filter-chart{
-  width: 100%;
-  height: 420px;
-  margin-top: 1rem;
-  padding: 1.5rem;
-  
+  margin: auto;
+  margin-top: 3rem;
+  width: 90%;
+  height: 75%;
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -25,5 +29,6 @@
     justify-content: center;
   }
 }
+
 
 

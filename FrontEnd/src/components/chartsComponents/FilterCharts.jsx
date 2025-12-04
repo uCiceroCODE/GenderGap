@@ -148,6 +148,7 @@ export default function FilterCharts() {
             categories={[...category]}
             data1={[...data1]}
             label1={data.filters.genere == "M" ? "uomini" : "donne"}
+            barColor={data.filters.genere == "F" ? "#00e396d9" : "#008ffbd9"}
           />
         );
     }
@@ -192,7 +193,10 @@ export default function FilterCharts() {
                     vertical={true}
                     categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
                     data1={data1}
-                    label1={data.filters.genere == "M" ? "uomini" : "donne"}/>)
+                    label1={data.filters.genere == "M" ? "uomini" : "donne"}
+                    barColor={data.filters.genere == "F" ? "#00e396d9" : "#008ffbd9"}
+                    />)
+                    
       }
     }
 
@@ -237,7 +241,7 @@ export default function FilterCharts() {
         />
         <Dropdown
           options={options_area_geo}
-          title={"Seleziona Area Geo:"}
+          title={"Seleziona Settore:"}
           df={"ALL"}
           setData={setSettore}
           desc={"filter-area"}
