@@ -92,11 +92,12 @@ export default function FilterCharts() {
   }, [year, regione, classe, genere, settore]);
 
   // console.log(data);
-
+  
   const drawChart = () => {
     // console.log(data);
 
-    if (!data?.data || loading) {
+    try {
+       if (!data?.data || loading) {
       return <FilterChartAll
                     vertical={true}
                     categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
@@ -106,7 +107,34 @@ export default function FilterCharts() {
                     label2="donne"/>;
     }
 
+    
     if (data.filters.classe != "ALL") {
+      // console.log(data.filters);
+      
+      if(data.filters.year != "ALL" && data.filters.regione == "ALL")
+      {
+        console.log(data.data);
+        if(data.filters.genere != "ALL")
+        return (<FilterChartSingle
+            vertical={true}
+            categories={[...data.data.regioni]}
+            data1={data.filters.genere == "M" ? [...data.data.uomini] : [...data.data.donne]}
+            label1={data.filters.genere == "M" ? "uomini" : "donne"}
+            barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
+          />)
+        else
+        {
+           return (<FilterChart
+            vertical={true}
+            categories={[...data.data.regioni]}
+            data1={[...data.data.uomini]}
+            data2={[...data.data.donne]}
+            label1="uomini"
+            label2="donne"
+          />)
+        }
+      }
+      else{
       let category = [];
       let data1 = [];
       let data2 = [];
@@ -148,10 +176,11 @@ export default function FilterCharts() {
             categories={[...category]}
             data1={[...data1]}
             label1={data.filters.genere == "M" ? "uomini" : "donne"}
-            barColor={data.filters.genere == "F" ? "#00e396d9" : "#008ffbd9"}
+            barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
           />
-        );
+        );}
     }
+
     else{
       if(data.filters.genere == 'ALL'){
       let data1 = [0,0,0,0,0]
@@ -160,7 +189,7 @@ export default function FilterCharts() {
       let perc_2 = [0,0,0,0,0]
 
       data.data.map((x) => {
-        console.log(x);
+        // console.log(x);
         data1[parseInt(x.type) - 1] = x.data.uomini
         data2[parseInt(x.type) - 1] = x.data.donne
         perc_1[parseInt(x.type) - 1] = x.data.perc_uomini
@@ -169,7 +198,7 @@ export default function FilterCharts() {
 
       // console.log(data1, data2, perc_1, perc_2);
        if(data.filters.genere == 'ALL')
-    return (<FilterChartAll
+        return (<FilterChartAll
                     vertical={true}
                     categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
                     data1={data1}
@@ -179,7 +208,7 @@ export default function FilterCharts() {
       }
       else{
          let data1 = [0,0,0,0,0]
-      let perc_1 = [0,0,0,0,0]
+        let perc_1 = [0,0,0,0,0]
 
       data.data.map((x) => {
         console.log(x);
@@ -194,12 +223,18 @@ export default function FilterCharts() {
                     categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
                     data1={data1}
                     label1={data.filters.genere == "M" ? "uomini" : "donne"}
-                    barColor={data.filters.genere == "F" ? "#00e396d9" : "#008ffbd9"}
+                    barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
                     />)
                     
       }
     }
 
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+   
    
   };
 

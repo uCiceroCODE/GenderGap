@@ -100,7 +100,7 @@ const FilterChartSingle = React.memo(({
         }
       }
     },
-  }), [ categories, vertical]); 
+  }), [ categories, vertical, barColor]); 
 
   const series = useMemo(() => [
     {

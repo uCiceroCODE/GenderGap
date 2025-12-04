@@ -3,6 +3,10 @@ import Chart from "react-apexcharts";
 import "../../styles/apexchart_custom.css"
 import { millify } from 'millify';
 
+const truncateLabel = (str, maxLength = 20) => {
+  return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
+};
+
 const FilterChart = React.memo(({ 
   data1, 
   data2, 
@@ -20,7 +24,6 @@ const FilterChart = React.memo(({
 
     chart: {
       type: 'bar',
-      height: 350,
       toolbar: { show: false}, 
       animations: { enabled: true }, 
       sparkline: { enabled: false }
@@ -88,11 +91,12 @@ const FilterChart = React.memo(({
     xaxis: {
       categories: categories,
       labels: {
-        style: {
-          colors: '#ffffff', 
-          fontSize: '12px' 
-        }
-      }
+    formatter: (value) => truncateLabel(value, 4),
+    style: {
+      colors: '#ffffff',
+      fontSize:  '12px' 
+    }
+  }
     },
   }), [ categories, vertical]); 
 
