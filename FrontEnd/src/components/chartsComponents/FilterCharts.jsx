@@ -59,10 +59,11 @@ const options_regione = [
 ];
 
 const options_area_geo = [
-  { value: "1", label: "NORD" },
-  { value: "2", label: "SUD" },
+  { value: "1", label: "NORD-OVEEST" },
+  { value: "2", label: "NORD-EST" },
   { value: "3", label: "CENTRO" },
-  { value: "4", label: "ISOLE" },
+  { value: "4", label: "SUD" },
+  { value: "5", label: "ISOLE" },
 ];
 
 export default function FilterCharts() {
@@ -209,6 +210,7 @@ export default function FilterCharts() {
           df={"ALL"}
           setData={setYear}
           desc={"filter-year"}
+          state={year}
         />
         <Dropdown
           options={options_type}
@@ -216,6 +218,7 @@ export default function FilterCharts() {
           df={"ALL"}
           setData={setClasse}
           desc={"filter-class"}
+          state={classe}
         />
         <Dropdown
           options={options_gender}
@@ -223,6 +226,7 @@ export default function FilterCharts() {
           df={"ALL"}
           setData={setGenere}
           desc={"filter-gender"}
+          state={genere}
         />
         <Dropdown
           options={options_regione}
@@ -230,6 +234,7 @@ export default function FilterCharts() {
           df={"ALL"}
           setData={setRegione}
           desc={"filter-regione"}
+          state={regione}
         />
         <Dropdown
           options={options_area_geo}
@@ -237,6 +242,7 @@ export default function FilterCharts() {
           df={"ALL"}
           setData={setArea}
           desc={"filter-area"}
+          state={area}
         />
       </div>
 
