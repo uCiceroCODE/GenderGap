@@ -1,0 +1,3 @@
+.leaflet-overlay-pane svg {
+    user-select: none !important;
+}

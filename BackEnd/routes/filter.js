@@ -242,7 +242,15 @@ router.get("/getByFilter", async (req, res) => {
 
 
       query += queryTail;
-          if (sectorCheck && !genderCheck && !yearCheck && !regionCheck) {
+        
+          let thisCheck = false
+          if(!genderCheck && !regionCheck && !yearCheck){
+            query += ` JOIN atenei AS a ON tb.ateneo_cod = a.ateneo_cod
+                  WHERE tb.ateneo_cod != 'TTTTT' `;
+            thisCheck = true
+                }
+
+                    if (sectorCheck && !genderCheck && !yearCheck && !regionCheck && !thisCheck ) {
             query += `${
               value.toUpperCase() == "STAFF"
                 ? settore == 1
@@ -259,10 +267,14 @@ router.get("/getByFilter", async (req, res) => {
                 : " AND cod_foet2013 = '06'"
             }`;
           }
+            
 
-          
           query += ` GROUP BY tb.anno ORDER BY tb.anno;`;
           // console.log(query);
+
+          
+          // console.log(query);
+          
 
           const [results] = await db.query(query, queryParams);
 
@@ -292,6 +304,10 @@ router.get("/getByFilter", async (req, res) => {
             perc_donne: n > 0 ? (accPF / n).toFixed(2) : "0.00",
           };
 
+          // console.log(commit, key);
+          // console.log("-------------------------");
+          
+          
           tempRes.push({ data: commit, type: key });
         })
       );

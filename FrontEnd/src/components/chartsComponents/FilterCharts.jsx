@@ -211,7 +211,7 @@ export default function FilterCharts() {
         let perc_1 = [0,0,0,0,0]
 
       data.data.map((x) => {
-        console.log(x);
+        // console.log(x);
         data1[parseInt(x.type) - 1] = x.data[data.filters.genere == "M" ? "uomini" : "donne"]
         perc_1[parseInt(x.type) - 1] = x.data[data.filters.genere == "M" ? "perc_uomini" : "perc_donne"]
       })
