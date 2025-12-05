@@ -185,9 +185,16 @@ router.get("/getByFilter", async (req, res) => {
         } AS tb
       `;
 
+
       query += queryTail;
 
-        if (sectorCheck && !genderCheck && !yearCheck && !regionCheck) {
+      let thisCheck = false
+          if(!genderCheck && !regionCheck && !yearCheck){
+            query += ` WHERE tb.ateneo_cod != 'TTTTT' `;
+            thisCheck = true
+          }
+
+        if (sectorCheck && !genderCheck && !yearCheck && !regionCheck && !thisCheck) {
           query += `${
             tables[classe].toUpperCase() == "STAFF"
               ? settore == 1
@@ -245,10 +252,9 @@ router.get("/getByFilter", async (req, res) => {
         
           let thisCheck = false
           if(!genderCheck && !regionCheck && !yearCheck){
-            query += ` JOIN atenei AS a ON tb.ateneo_cod = a.ateneo_cod
-                  WHERE tb.ateneo_cod != 'TTTTT' `;
+            query += ` WHERE tb.ateneo_cod != 'TTTTT' `;
             thisCheck = true
-                }
+          }
 
                     if (sectorCheck && !genderCheck && !yearCheck && !regionCheck && !thisCheck ) {
             query += `${

@@ -115,8 +115,8 @@ router.get("/getByRegion", async (req, res) => {
         'immatricolati' AS tipo,
         i.n_immatricolati AS valore
     FROM immatricolati i
-    JOIN atenei a ON a.ateneo_cod = i.ateneo_cod
-    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' 
+    JOIN atenei a ON a.ateneo_cod = i.ateneo_cod 
+    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' AND i.ateneo_cod != 'TTTTT'
 
     UNION ALL
 
@@ -131,7 +131,7 @@ router.get("/getByRegion", async (req, res) => {
         l.n_laureati AS valore
     FROM laureati l
     JOIN atenei a ON a.ateneo_cod = l.ateneo_cod
-    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' 
+    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06'  AND l.ateneo_cod != 'TTTTT'
 
     UNION ALL
 
@@ -146,7 +146,7 @@ router.get("/getByRegion", async (req, res) => {
         s.n_staff AS valore
     FROM academic_staff s
     JOIN atenei a ON a.ateneo_cod = s.ateneo_cod
-    WHERE UPPER(a.regione) = ? AND cod_sd IN ('01', '09') 
+    WHERE UPPER(a.regione) = ? AND cod_sd IN ('01', '09')  AND s.ateneo_cod != 'TTTTT'
 ) AS combined
 GROUP BY genere
 ORDER BY genere;
@@ -171,7 +171,7 @@ ORDER BY genere;
         i.n_immatricolati AS valore
     FROM immatricolati i
     JOIN atenei a ON a.ateneo_cod = i.ateneo_cod
-    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' AND i.anno = ?
+    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' AND i.anno = ? AND i.ateneo_cod != 'TTTTT'
 
     UNION ALL
 
@@ -186,7 +186,7 @@ ORDER BY genere;
         l.n_laureati AS valore
     FROM laureati l
     JOIN atenei a ON a.ateneo_cod = l.ateneo_cod
-    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' AND l.anno = ?
+    WHERE UPPER(a.regione) = ? AND cod_foet2013 = '06' AND l.anno = ?  AND l.ateneo_cod != 'TTTTT'
 
     UNION ALL
 
@@ -201,7 +201,7 @@ ORDER BY genere;
         s.n_staff AS valore
     FROM academic_staff s
     JOIN atenei a ON a.ateneo_cod = s.ateneo_cod
-    WHERE UPPER(a.regione) = ? AND cod_sd IN ('01', '09') AND s.anno = ?
+    WHERE UPPER(a.regione) = ? AND cod_sd IN ('01', '09') AND s.anno = ?  AND s.ateneo_cod != 'TTTTT'
 ) AS combined
 GROUP BY genere
 ORDER BY genere;
@@ -232,7 +232,7 @@ router.get("/getByYearICTS", async (req, res) => {
       SUM(n_immatricolati) as totale
     FROM immatricolati WHERE ateneo_cod != 'TTTTT'
     GROUP BY anno, genere
-    HAVING genere = 'F' OR genere = 'M'
+    HAVING genere = 'F' OR genere = 'M' 
     ORDER BY anno DESC;
     `;
 

@@ -206,6 +206,7 @@ export default function FilterCharts() {
                     label1="uomini"
                     label2="donne"/>)
       }
+      
       else{
          let data1 = [0,0,0,0,0]
         let perc_1 = [0,0,0,0,0]
