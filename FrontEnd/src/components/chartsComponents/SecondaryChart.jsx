@@ -1,25 +1,25 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/secondaryChart.css";
 import ColumnChart from "../chartsType/ColumnChart";
 import { getCachedData } from "../utilities/cache";
 
 
-  const dataLen = 5;
-  const cardsData = [{
-    titolo: "Immatricolati"
-  }, {
-    titolo: "Laureati"
+const dataLen = 5;
+const cardsData = [{
+  titolo: "Immatricolati"
+}, {
+  titolo: "Laureati"
 
-  }, {
-    titolo: "Dottori"
+}, {
+  titolo: "Dottori"
 
-  }, {
-    titolo: "Dottorandi"
+}, {
+  titolo: "Dottorandi"
 
-  }, {
-    titolo: "Professori e Ricercatori"
+}, {
+  titolo: "Professori e Ricercatori"
 
-  }];
+}];
 
 
 export default function SecondaryChart({ w }) {
@@ -29,12 +29,12 @@ export default function SecondaryChart({ w }) {
   const [currentSubIndex, setCurrentSubIndex] = useState(0);
 
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const result = await getCachedData('http://localhost:8080/api/queries/getWomenPer', {
-          cacheTTL: 5 * 60 * 1000 
+        const result = await getCachedData('/api/queries/getWomenPer', {
+          cacheTTL: 5 * 60 * 1000
         });
         setData(() => {
           const temp = [];
@@ -57,7 +57,7 @@ export default function SecondaryChart({ w }) {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
 
@@ -72,7 +72,7 @@ export default function SecondaryChart({ w }) {
     setCurrentSubIndex(0);
   }
 
-  const getCardClass = 
+  const getCardClass =
     (index) => {
       const diff = (index - currentIndex + dataLen) % dataLen;
       if (diff === 0) return "active";
@@ -108,9 +108,8 @@ export default function SecondaryChart({ w }) {
                       if (currentIndex + 1 == idx) handleNext();
                       else if (currentIndex == idx + 1) handlePrev();
                     }}
-                    className={`graph-card ${getCardClass(idx)} ${
-                      Math.abs(idx - currentIndex) > 1 ? "invisible" : ""
-                    }`}
+                    className={`graph-card ${getCardClass(idx)} ${Math.abs(idx - currentIndex) > 1 ? "invisible" : ""
+                      }`}
                   >
                     <div className="secondary-stack-index">
                       {x.value.map((y, z) => (
@@ -124,24 +123,24 @@ export default function SecondaryChart({ w }) {
                           {x.cod[z] === "06" || x.cod[z] === "09"
                             ? "ICT"
                             : x.cod[z] === "07" || x.cod[z] === "08"
-                            ? "Ingegneria"
-                            : x.cod[z] === "01"
-                            ? " Scienze"
-                            : ""}
+                              ? "Ingegneria"
+                              : x.cod[z] === "01"
+                                ? " Scienze"
+                                : ""}
                         </div>
                       ))}
                     </div>
                     <h3>{cardsData[idx].titolo}</h3>
 
                     {x.value[currentSubIndex] &&
-                    w >= 900 &&
-                    (idx == currentIndex ||
-                      idx == currentIndex + 1 ||
-                      idx + 1 == currentIndex) ? (
+                      w >= 900 &&
+                      (idx == currentIndex ||
+                        idx == currentIndex + 1 ||
+                        idx + 1 == currentIndex) ? (
                       <ColumnChart
                         w={w}
                         categories={[...x.anno]}
-                        data1={ [...x.value[currentSubIndex]]}
+                        data1={[...x.value[currentSubIndex]]}
                         data2={[
                           ...x.value[currentSubIndex].map((w) =>
                             (100 - w).toFixed(2)
@@ -151,25 +150,25 @@ export default function SecondaryChart({ w }) {
                         label1={"Donne"}
                         label2={"Uomini"}
                       />
-                    ) 
-                    : (
-                      w < 900 &&
-                      currentIndex == idx && (
-                        <ColumnChart
-                          w={w}
-                          categories={[...x.anno]}
-                          data1={[
-                            ...x.value[currentSubIndex].map((w) =>
-                              (100 - w).toFixed(2)
-                            ),
-                          ]}
-                          data2={[...x.value[currentSubIndex]]}
-                          vertical={w >= 900 ? true : false}
-                          label1={"Uomini"}
-                          label2={"Donne"}
-                        />
-                      )
-                    )} 
+                    )
+                      : (
+                        w < 900 &&
+                        currentIndex == idx && (
+                          <ColumnChart
+                            w={w}
+                            categories={[...x.anno]}
+                            data1={[
+                              ...x.value[currentSubIndex].map((w) =>
+                                (100 - w).toFixed(2)
+                              ),
+                            ]}
+                            data2={[...x.value[currentSubIndex]]}
+                            vertical={w >= 900 ? true : false}
+                            label1={"Uomini"}
+                            label2={"Donne"}
+                          />
+                        )
+                      )}
                   </div>
                 ))}
             </div>
@@ -199,15 +198,15 @@ export default function SecondaryChart({ w }) {
         </div>
 
         <div className="chart-description">
-        <p>I grafici mostrano chiaramente come il divario di genere in Italia nelle discipline STEM e ICT si manifesti e si amplifichi lungo tutte le fasi della carriera accademica: 
-          dalle immatricolazioni ai laureati, dai dottori ai dottorandi, fino ai professori e ricercatori. 
-          La zona in cui il Gender Gap è maggiore sono le discipline ICT, in tutte le varie fasi della carriara accademica e sempre la materia con la situazione piu preoccupante.
-          In ogni categoria, la presenza delle donne resta sempre inferiore rispetto a quella degli uomini, 
-          riflettendo ostacoli strutturali e culturali persistenti lungo tutto il percorso universitario e scientifico.</p>
-      </div>
+          <p>I grafici mostrano chiaramente come il divario di genere in Italia nelle discipline STEM e ICT si manifesti e si amplifichi lungo tutte le fasi della carriera accademica:
+            dalle immatricolazioni ai laureati, dai dottori ai dottorandi, fino ai professori e ricercatori.
+            La zona in cui il Gender Gap è maggiore sono le discipline ICT, in tutte le varie fasi della carriara accademica e sempre la materia con la situazione piu preoccupante.
+            In ogni categoria, la presenza delle donne resta sempre inferiore rispetto a quella degli uomini,
+            riflettendo ostacoli strutturali e culturali persistenti lungo tutto il percorso universitario e scientifico.</p>
+        </div>
       </div>
 
-      
+
     </div>
   );
 }

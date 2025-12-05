@@ -75,7 +75,7 @@ export default function FilterCharts() {
       setLoading(true);
       try {
         const result = await getCachedData(
-          `http://localhost:8080/api/filter/getByFilter?year=${year}&regione=${regione}&classe=${classe}&genere=${genere}&settore=${settore}`,
+          `/api/filter/getByFilter?year=${year}&regione=${regione}&classe=${classe}&genere=${genere}&settore=${settore}`,
           {
             cacheTTL: 5 * 60 * 1000,
           }
@@ -92,151 +92,150 @@ export default function FilterCharts() {
   }, [year, regione, classe, genere, settore]);
 
   // console.log(data);
-  
+
   const drawChart = () => {
     // console.log(data);
 
     try {
-       if (!data?.data || loading) {
-      return <FilterChartAll
-                    vertical={true}
-                    categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
-                    data1={[0,0,0,0]}
-                    data2={[0,0,0,0]}
-                    label1="uomini"
-                    label2="donne"/>;
-    }
+      if (!data?.data || loading) {
+        return <FilterChartAll
+          vertical={true}
+          categories={["Immatricolati", "Laureati", "Dottorandi", "Dottori", "Prof e Ricercatori"]}
+          data1={[0, 0, 0, 0]}
+          data2={[0, 0, 0, 0]}
+          label1="uomini"
+          label2="donne" />;
+      }
 
-    
-    if (data.filters.classe != "ALL") {
-      // console.log(data.filters);
-      
-      if(data.filters.year != "ALL" && data.filters.regione == "ALL")
-      {
-        console.log(data.data);
-        if(data.filters.genere != "ALL")
-        return (<FilterChartSingle
-            vertical={true}
-            categories={[...data.data.regioni]}
-            data1={data.filters.genere == "M" ? [...data.data.uomini] : [...data.data.donne]}
-            label1={data.filters.genere == "M" ? "uomini" : "donne"}
-            barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
-          />)
-        else
-        {
-           return (<FilterChart
-            vertical={true}
-            categories={[...data.data.regioni]}
-            data1={[...data.data.uomini]}
-            data2={[...data.data.donne]}
-            label1="uomini"
-            label2="donne"
-          />)
+
+      if (data.filters.classe != "ALL") {
+        // console.log(data.filters);
+
+        if (data.filters.year != "ALL" && data.filters.regione == "ALL") {
+          console.log(data.data);
+          if (data.filters.genere != "ALL")
+            return (<FilterChartSingle
+              vertical={true}
+              categories={[...data.data.regioni]}
+              data1={data.filters.genere == "M" ? [...data.data.uomini] : [...data.data.donne]}
+              label1={data.filters.genere == "M" ? "uomini" : "donne"}
+              barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
+            />)
+          else {
+            return (<FilterChart
+              vertical={true}
+              categories={[...data.data.regioni]}
+              data1={[...data.data.uomini]}
+              data2={[...data.data.donne]}
+              label1="uomini"
+              label2="donne"
+            />)
+          }
+        }
+        else {
+          let category = [];
+          let data1 = [];
+          let data2 = [];
+          let perc_data1 = [];
+          let perc_data2 = [];
+
+          data.data.map((x) => {
+            if (data.filters.classe != "ALL" && data.filters.genere == "ALL") {
+              category.push(x.anno);
+              data1.push(x.uomini);
+              data2.push(x.donne);
+              perc_data1.push(x.perc_donne);
+              perc_data2.push(x.perc_uomini);
+            } else if (
+              data.filters.classe != "ALL" && data.filters.genere != "ALL"
+            ) {
+              category.push(x.anno);
+              data1.push(x[data.filters.genere == "M" ? "uomini" : "donne"]);
+              perc_data1.push(x.perc_donne);
+            }
+          });
+
+          if (data.filters.classe != "ALL" && data.filters.genere == "ALL")
+            return (
+              <FilterChart
+                vertical={true}
+                categories={[...category]}
+                data1={[...data1]}
+                data2={[...data2]}
+                label1="uomini"
+                label2="donne"
+              />
+            );
+
+          if (data.filters.classe != "ALL" && data.filters.genere != "ALL")
+            return (
+              <FilterChartSingle
+                vertical={true}
+                categories={[...category]}
+                data1={[...data1]}
+                label1={data.filters.genere == "M" ? "uomini" : "donne"}
+                barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
+              />
+            );
         }
       }
-      else{
-      let category = [];
-      let data1 = [];
-      let data2 = [];
-      let perc_data1 = [];
-      let perc_data2 = [];
 
-      data.data.map((x) => {
-        if (data.filters.classe != "ALL" && data.filters.genere == "ALL") {
-          category.push(x.anno);
-          data1.push(x.uomini);
-          data2.push(x.donne);
-          perc_data1.push(x.perc_donne);
-          perc_data2.push(x.perc_uomini);
-        } else if (
-          data.filters.classe != "ALL" && data.filters.genere != "ALL"
-        ) {
-          category.push(x.anno);
-          data1.push(x[data.filters.genere == "M" ? "uomini" : "donne"]);
-          perc_data1.push(x.perc_donne);
+      else {
+        if (data.filters.genere == 'ALL') {
+          let data1 = [0, 0, 0, 0, 0]
+          let data2 = [0, 0, 0, 0, 0]
+          let perc_1 = [0, 0, 0, 0, 0]
+          let perc_2 = [0, 0, 0, 0, 0]
+
+          data.data.map((x) => {
+            // console.log(x);
+            data1[parseInt(x.type) - 1] = x.data.uomini
+            data2[parseInt(x.type) - 1] = x.data.donne
+            perc_1[parseInt(x.type) - 1] = x.data.perc_uomini
+            perc_2[parseInt(x.type) - 1] = x.data.perc_donne
+          })
+
+          // console.log(data1, data2, perc_1, perc_2);
+          if (data.filters.genere == 'ALL')
+            return (<FilterChartAll
+              vertical={true}
+              categories={["Immatricolati", "Laureati", "Dottorandi", "Dottori", "Prof e Ricercatori"]}
+              data1={data1}
+              data2={data2}
+              label1="uomini"
+              label2="donne" />)
         }
-      });
 
-      if (data.filters.classe != "ALL" && data.filters.genere == "ALL")
-        return (
-          <FilterChart
-            vertical={true}
-            categories={[...category]}
-            data1={[...data1]}
-            data2={[...data2]}
-            label1="uomini"
-            label2="donne"
-          />
-        );
+        else {
+          let data1 = [0, 0, 0, 0, 0]
+          let perc_1 = [0, 0, 0, 0, 0]
 
-      if (data.filters.classe != "ALL" && data.filters.genere != "ALL")
-        return (
-          <FilterChartSingle
-            vertical={true}
-            categories={[...category]}
-            data1={[...data1]}
-            label1={data.filters.genere == "M" ? "uomini" : "donne"}
-            barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
-          />
-        );}
-    }
+          data.data.map((x) => {
+            // console.log(x);
+            data1[parseInt(x.type) - 1] = x.data[data.filters.genere == "M" ? "uomini" : "donne"]
+            perc_1[parseInt(x.type) - 1] = x.data[data.filters.genere == "M" ? "perc_uomini" : "perc_donne"]
+          })
 
-    else{
-      if(data.filters.genere == 'ALL'){
-      let data1 = [0,0,0,0,0]
-      let data2 = [0,0,0,0,0]
-      let perc_1 = [0,0,0,0,0]
-      let perc_2 = [0,0,0,0,0]
+          // console.log(data1, perc_1);
+          if (data.filters.genere != 'ALL')
+            return (<FilterChartAllSingle
+              vertical={true}
+              categories={["Immatricolati", "Laureati", "Dottorandi", "Dottori", "Prof e Ricercatori"]}
+              data1={data1}
+              label1={data.filters.genere == "M" ? "uomini" : "donne"}
+              barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
+            />)
 
-      data.data.map((x) => {
-        // console.log(x);
-        data1[parseInt(x.type) - 1] = x.data.uomini
-        data2[parseInt(x.type) - 1] = x.data.donne
-        perc_1[parseInt(x.type) - 1] = x.data.perc_uomini
-        perc_2[parseInt(x.type) - 1] = x.data.perc_donne
-      })
-
-      // console.log(data1, data2, perc_1, perc_2);
-       if(data.filters.genere == 'ALL')
-        return (<FilterChartAll
-                    vertical={true}
-                    categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
-                    data1={data1}
-                    data2={data2}
-                    label1="uomini"
-                    label2="donne"/>)
+        }
       }
-      
-      else{
-         let data1 = [0,0,0,0,0]
-        let perc_1 = [0,0,0,0,0]
-
-      data.data.map((x) => {
-        // console.log(x);
-        data1[parseInt(x.type) - 1] = x.data[data.filters.genere == "M" ? "uomini" : "donne"]
-        perc_1[parseInt(x.type) - 1] = x.data[data.filters.genere == "M" ? "perc_uomini" : "perc_donne"]
-      })
-
-      // console.log(data1, perc_1);
-       if(data.filters.genere != 'ALL')
-    return (<FilterChartAllSingle
-                    vertical={true}
-                    categories={["Immatricolati", "Laureati", "Dottorandi","Dottori", "Prof e Ricercatori" ]}
-                    data1={data1}
-                    label1={data.filters.genere == "M" ? "uomini" : "donne"}
-                    barColor={data.filters.genere == "F" ? "#00e396" : "#008ffb"}
-                    />)
-                    
-      }
-    }
 
     } catch (error) {
       console.log(error);
-      
+
     }
 
-   
-   
+
+
   };
 
 

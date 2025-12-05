@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Frontend - publicly accessible
+  frontend:
+    build:
+      context: ./FrontEnd
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - frontend-network
+    restart: unless-stopped
+
+  # Backend - internal only (no ports exposed to host)
+  backend:
+    build:
+      context: ./BackEnd
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - DB_HOST=database
+      - DB_USER=gendergap_user
+      - DB_PASSWORD=gendergap_password
+      - DB_NAME=gendergap
+      - DB_PORT=3306
+      - REACT_APP_URL=http://frontend
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - frontend-network
+      - backend-network
+    restart: unless-stopped
+
+  # Database - internal only (no ports exposed to host)
+  database:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=gendergap
+      - MYSQL_USER=gendergap_user
+      - MYSQL_PASSWORD=gendergap_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./conte.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
