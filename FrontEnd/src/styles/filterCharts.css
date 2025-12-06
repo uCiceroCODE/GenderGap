@@ -22,13 +22,34 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 840px) {
+
+  .filter-container{
+    width: 100%;
+    height: 50%;
+}
+
+.filter-chart{
+  margin: auto;
+  margin-top: 3rem;
+  width: 90%;
+  height: 65%;
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
   .filter-choose {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));   
   }
 }
+
+
+
+
 
 
 
