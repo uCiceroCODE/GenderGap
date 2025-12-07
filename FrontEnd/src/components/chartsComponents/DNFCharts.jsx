@@ -19,46 +19,69 @@ const options_gender = [
   { value: "F", label: "Donne" },
 ];
 
-
-
-const options_tipy = [
-  { value: "1", label: "DONNE CDA" },
+const options_azienda = [
+  {
+    label: "REPLY",
+    value: "REPLY",
+  },
+  {
+    label: "TIM",
+    value: "TIM",
+  },
+  {
+    label: "TXT E-SOLUTIONS",
+    value: "TXT E-SOLUTIONS",
+  },
+  {
+    label: "LEONARDO",
+    value: "LEONARDO",
+  },
+  {
+    label: "PRYSMIAN",
+    value: "PRYSMIAN",
+  },
+  {
+    label: "SESA",
+    value: "SESA",
+  },
+  {
+    label: "EI TOWERS",
+    value: "EI TOWERS",
+  },
 ];
-
 
 export default function DNFCharts() {
   const [year, setYear] = useState("ALL");
   const [genere, setGenere] = useState("ALL");
-  const [settore, setSettore] = useState("ALL");
+  const [azienda, setAzienda] = useState("ALL");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isPerc, setIsPerc] = useState(false);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     setError(null);
-  //     try {
-  //       const result = await getCachedData(
-  //         `/api/filter/getByFilter?year=${year}&genere=${genere}&settore=${settore}`,
-  //         {
-  //           cacheTTL: 5 * 60 * 1000,
-  //         }
-  //       );
-  //       setData(result);
-  //     } catch (error) {
-  //       console.error("Errore nel caricamento dei dati:", error);
-  //       setError(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const result = await getCachedData(
+          `/api/dnf/getData?year=${year}&genere=${genere}&azienda=${azienda}`,
+          {
+            cacheTTL: 5 * 60 * 1000,
+          }
+        );
+        setData(result);
+      } catch (error) {
+        console.error("Errore nel caricamento dei dati:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
-  // }, [year, genere, settore]);
+    fetchData();
+  }, [year, genere, azienda]);
 
-  
   return (
     <div className="dnf-container">
       <div className="dnf-choose">
@@ -79,14 +102,18 @@ export default function DNFCharts() {
           state={genere}
         />
         <Dropdown
-          options={options_tipy}
-          title="Seleziona Settore:"
+          options={options_azienda}
+          title="Seleziona azienda:"
           df="ALL"
-          setData={setSettore}
+          setData={setAzienda}
           desc="filter-area"
-          state={settore}
+          state={azienda}
         />
-        <Switch state={isPerc} setState={setIsPerc} isActive={genere != "ALL"}/>
+        <Switch
+          state={isPerc}
+          setState={setIsPerc}
+          isActive={genere != "ALL"}
+        />
       </div>
 
       <div className="dnf-chart">{}</div>
