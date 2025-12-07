@@ -21,8 +21,8 @@ services:
       - NODE_ENV=production
       - PORT=8080
       - DB_HOST=database
-      - DB_USER=gendergap_user
-      - DB_PASSWORD=gendergap_password
+      - DB_USER=root
+      - DB_PASSWORD=root_password
       - DB_NAME=gender_gap_db
       - DB_PORT=3306
       - REACT_APP_URL=http://frontend

@@ -185,6 +185,7 @@ export default function DNFCharts() {
               data1={isPerc ? (pData1.length > 0 ? pData1 : EMPTY_DATA) : (data1.length > 0 ? data1 : EMPTY_DATA)}
               label1="uomini"
               isPerc={isPerc}
+              barColor={genere === "F" ? "#00e396" : "#008ffb"}
             />
           );
         }
@@ -223,6 +224,7 @@ export default function DNFCharts() {
               data1={isPerc ? p_data : n_data}
               label1="uomini"
               isPerc={isPerc}
+              barColor={genere === "F" ? "#00e396" : "#008ffb"}
             />
           );
         }
@@ -280,6 +282,7 @@ export default function DNFCharts() {
               data1={isPerc ? (pData1.length > 0 ? pData1 : EMPTY_DATA) : (data1.length > 0 ? data1 : EMPTY_DATA)}
               label1="uomini"
               isPerc={isPerc}
+              barColor={genere === "F" ? "#00e396" : "#008ffb"}
             />
           );
         }
@@ -322,6 +325,7 @@ export default function DNFCharts() {
               data1={isPerc ? [p_data] : [n_data]}
               label1="uomini"
               isPerc={isPerc}
+              barColor={genere === "F" ? "#00e396" : "#008ffb"}
             />
           );
         }
