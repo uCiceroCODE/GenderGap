@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Frontend - publicly accessible
   frontend:
@@ -39,10 +37,9 @@ services:
   # Database - internal only (no ports exposed to host)
   database:
     image: mysql:8.0
-#    platform: linux/arm64
     environment:
       - MYSQL_ROOT_PASSWORD=root_password
-      - MYSQL_DATABASE=gendergap
+      - MYSQL_DATABASE=gender_gap_db
       - MYSQL_USER=gendergap_user
       - MYSQL_PASSWORD=gendergap_password
     volumes:
