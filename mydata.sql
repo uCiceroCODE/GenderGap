@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `gender_gap_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `gender_gap_db`;
 -- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: gender_gap_db
@@ -39,7 +41,7 @@ CREATE TABLE `academic_staff` (
   KEY `idx_academic_staff_anno_genere` (`anno`,`genere`),
   CONSTRAINT `academic_staff_ibfk_1` FOREIGN KEY (`ateneo_cod`) REFERENCES `atenei` (`ateneo_cod`),
   CONSTRAINT `academic_staff_ibfk_2` FOREIGN KEY (`cod_sd`) REFERENCES `area_sd` (`cod_sd`)
-) ENGINE=InnoDB AUTO_INCREMENT=65536 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33534 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +124,7 @@ CREATE TABLE `azienda_ict` (
   KEY `idx_azienda_ict_anno` (`anno`),
   KEY `idx_azienda_ict_nome` (`nome`),
   KEY `idx_azienda_ict_anno_nome` (`anno`,`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +159,7 @@ CREATE TABLE `dottorandi` (
   KEY `idx_dottorandi_anno_genere` (`anno`,`genere`),
   CONSTRAINT `dottorandi_ibfk_1` FOREIGN KEY (`ateneo_cod`) REFERENCES `atenei` (`ateneo_cod`),
   CONSTRAINT `dottorandi_ibfk_2` FOREIGN KEY (`cod_foet2013`) REFERENCES `foet2013` (`cod_foet`)
-) ENGINE=InnoDB AUTO_INCREMENT=2048 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1922 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +194,7 @@ CREATE TABLE `dottori` (
   KEY `idx_dottori_anno_genere` (`anno`,`genere`),
   CONSTRAINT `dottori_ibfk_1` FOREIGN KEY (`ateneo_cod`) REFERENCES `atenei` (`ateneo_cod`),
   CONSTRAINT `dottori_ibfk_2` FOREIGN KEY (`cod_foet2013`) REFERENCES `foet2013` (`cod_foet`)
-) ENGINE=InnoDB AUTO_INCREMENT=2048 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2007 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,7 +254,7 @@ CREATE TABLE `immatricolati` (
   KEY `idx_immatricolati_anno_genere` (`anno`,`genere`),
   CONSTRAINT `immatricolati_ibfk_1` FOREIGN KEY (`ateneo_cod`) REFERENCES `atenei` (`ateneo_cod`),
   CONSTRAINT `immatricolati_ibfk_2` FOREIGN KEY (`cod_foet2013`) REFERENCES `foet2013` (`cod_foet`)
-) ENGINE=InnoDB AUTO_INCREMENT=4096 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2958 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +289,7 @@ CREATE TABLE `laureati` (
   KEY `idx_laureati_anno_genere` (`anno`,`genere`),
   CONSTRAINT `laureati_ibfk_1` FOREIGN KEY (`ateneo_cod`) REFERENCES `atenei` (`ateneo_cod`),
   CONSTRAINT `laureati_ibfk_2` FOREIGN KEY (`cod_foet2013`) REFERENCES `foet2013` (`cod_foet`)
-) ENGINE=InnoDB AUTO_INCREMENT=8192 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5799 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,4 +311,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-07 12:53:20
+-- Dump completed on 2025-12-07 13:03:56
