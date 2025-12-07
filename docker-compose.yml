@@ -25,7 +25,7 @@ services:
       - DB_HOST=database
       - DB_USER=gendergap_user
       - DB_PASSWORD=gendergap_password
-      - DB_NAME=gendergap
+      - DB_NAME=gender_gap_db
       - DB_PORT=3306
       - REACT_APP_URL=http://frontend
     depends_on:
@@ -39,6 +39,7 @@ services:
   # Database - internal only (no ports exposed to host)
   database:
     image: mysql:8.0
+#    platform: linux/arm64
     environment:
       - MYSQL_ROOT_PASSWORD=root_password
       - MYSQL_DATABASE=gendergap
