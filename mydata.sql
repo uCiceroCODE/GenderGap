@@ -312,3 +312,8 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-12-07 13:03:56
+
+-- Grant permissions to gendergap_user for cross-platform Docker compatibility
+-- This ensures the user created by Docker Compose can access the database
+GRANT ALL PRIVILEGES ON gender_gap_db.* TO 'gendergap_user'@'%';
+FLUSH PRIVILEGES;
