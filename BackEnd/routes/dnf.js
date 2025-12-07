@@ -6,8 +6,8 @@ router.get("/getData", async (req, res) => {
   try {
     const { year, genere, azienda } = req.query;
 
-    console.log(year, genere, azienda);
-    console.log(req.query);
+    // console.log(year, genere, azienda);
+    // console.log(req.query, req.originalUrl);
 
     if (!year || !genere || !azienda) {
       return res.status(400).json({
@@ -90,7 +90,7 @@ router.get("/getData", async (req, res) => {
         GROUP BY anno, nome
         ORDER BY anno;`;
 
-          console.log(query);
+          // console.log(query);
 
           const [results] = await db.query(query);
 
@@ -140,7 +140,7 @@ router.get("/getData", async (req, res) => {
           GROUP BY anno 
           ORDER BY anno;`;
 
-          // console.log(query);
+          console.log(query);
 
           const [results] = await db.query(query);
 
@@ -185,7 +185,7 @@ router.get("/getData", async (req, res) => {
         GROUP BY anno, nome
         ORDER BY anno;`;
 
-          console.log(query);
+          // console.log(query);
 
           const [results] = await db.query(query);
 
@@ -233,13 +233,13 @@ router.get("/getData", async (req, res) => {
         anno, nome, 
         ${
           genere.toUpperCase() == "M"
-            ? "SUM(n_uomini) as n_uomini,"
-            : "SUM(n_donne) as n_donne,"
+            ? "SUM(n_uomini) as n_data,"
+            : "SUM(n_donne) as n_data,"
         }
         ${
           genere.toUpperCase() == "M"
-            ? "ROUND(SUM(n_uomini) * 100.0 / (SUM(n_uomini) + SUM(n_donne)), 2) as p_uomini"
-            : "ROUND(SUM(n_donne) * 100.0 / (SUM(n_uomini) + SUM(n_donne)), 2) as p_donne"
+            ? "ROUND(SUM(n_uomini) * 100.0 / (SUM(n_uomini) + SUM(n_donne)), 2) as p_data"
+            : "ROUND(SUM(n_donne) * 100.0 / (SUM(n_uomini) + SUM(n_donne)), 2) as p_data"
         }
         FROM azienda_ict WHERE anno = ? ${
           azienda.toUpperCase() != "ALL" ? ` AND nome = '${azienda}'` : ""
@@ -249,7 +249,7 @@ router.get("/getData", async (req, res) => {
 
         const [results] = await db.query(query, year);
 
-        res.json({ results });
+        res.json(results );
       }
     }
 
