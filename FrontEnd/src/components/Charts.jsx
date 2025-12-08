@@ -27,37 +27,37 @@ export default function Charts() {
       {width > 1049 && (
         <div className="chart-container chart-container-map">
           <div className="chart-title">
-            Situzione del Digital Gender Gap negli atenei italiani
+            Situazione del Digital Gender Gap negli atenei italiani
           </div>
           <Map />
         </div>
       )}
-  
+
       <div className="chart-container">
         <div className="chart-title">Alcuni dati riguardanti il Gender Gap</div>
-        <MainChart w={width}/>
+        <MainChart w={width} />
       </div>
 
       <div className="chart-container">
         <div className="chart-title">Confronto tra materie STEM | ICT con il maggior Gender Gap negli anni</div>
         <SecondaryChart w={width} />
-        
+
       </div>
 
       {width > 720 && (
-      <div className="chart-container">
-        <div className="chart-title">Grafico con filtro per osservare cosa succede nellle università</div>
+        <div className="chart-container">
+          <div className="chart-title">Grafico con filtro per osservare cosa succede nellle università</div>
           <FilterCharts />
-      </div>)}
+        </div>)}
 
 
       {width > 720 && (
-      <div className="chart-container">
-        <div className="chart-title">Grafico con filtro sui dati dell'Osservatorio DNF</div>
+        <div className="chart-container">
+          <div className="chart-title">Grafico con filtro sui dati dell'Osservatorio DNF</div>
           <DNFCharts />
-      </div>)}
-      
-      
+        </div>)}
+
+
     </section>
   );
 }

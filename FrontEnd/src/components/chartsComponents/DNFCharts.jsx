@@ -56,8 +56,8 @@ const options_azienda = [
 ];
 
 
-const CATEGORIES_ALL = ["2017", "2018", "2019", "2020", "2021", "2022"];
-const EMPTY_DATA = [0, 0, 0, 0, 0, 0];
+const CATEGORIES_ALL = ["2017", "2018", "2019", "2020", "2021", "2022", "2023"];
+const EMPTY_DATA = [0, 0, 0, 0, 0, 0, 0];
 
 
 export default function DNFCharts() {
@@ -131,14 +131,14 @@ export default function DNFCharts() {
     }
 
 
- 
+
     if (year.toUpperCase() === "ALL") {
 
       if (azienda.toUpperCase() === "ALL") {
 
         if (genere.toUpperCase() === "ALL" && data?.response && Array.isArray(data.response)) {
           // console.log("Case 1: Year=ALL, Azienda=ALL, Genere=ALL (multiple companies)", data);
-          
+
           let nomi = [];
           let data1 = [];
           let pData1 = [];
@@ -167,7 +167,7 @@ export default function DNFCharts() {
         }
         else if (data?.response && Array.isArray(data.response)) {
           // console.log("Case 2: Year=ALL, Azienda=ALL, Genere=Single (multiple companies, single gender)", data);
-          
+
           let nomi = [];
           let data1 = [];
           let pData1 = [];
@@ -193,7 +193,7 @@ export default function DNFCharts() {
       else {
         if (genere.toUpperCase() === "ALL" && data?.anni && Array.isArray(data.anni)) {
           // console.log("Case 3: Year=ALL, Azienda=Single, Genere=ALL (single company, multiple years)", data);
-          
+
           const n_uomini = safeGetArray(data.n_uomini, EMPTY_DATA);
           const p_uomini = safeGetArray(data.p_uomini, EMPTY_DATA);
           const n_donne = safeGetArray(data.n_donne, EMPTY_DATA);
@@ -213,7 +213,7 @@ export default function DNFCharts() {
         }
         else if (data?.anni && Array.isArray(data.anni)) {
           // console.log("Case 4: Year=ALL, Azienda=Single, Genere=Single (single company, single gender, multiple years)", data);
-          
+
           const n_data = safeGetArray(data.n_data, EMPTY_DATA);
           const p_data = safeGetArray(data.p_data, EMPTY_DATA);
 
@@ -234,7 +234,7 @@ export default function DNFCharts() {
       if (azienda.toUpperCase() === "ALL") {
         if (genere.toUpperCase() === "ALL" && data?.results && Array.isArray(data.results)) {
           // console.log("Case 5: Year=Single, Azienda=ALL, Genere=ALL (single year, multiple companies)", data);
-          
+
           let nomi = [];
           let data1 = [];
           let pData1 = [];
@@ -263,7 +263,7 @@ export default function DNFCharts() {
         }
         else if (Array.isArray(data)) {
           // console.log("Case 6: Year=Single, Azienda=ALL, Genere=Single (single year, multiple companies, single gender)", data);
-          
+
           let nomi = [];
           let data1 = [];
           let pData1 = [];
@@ -290,7 +290,7 @@ export default function DNFCharts() {
       else {
         if (genere.toUpperCase() === "ALL" && data?.results && Array.isArray(data.results) && data.results.length > 0) {
           // console.log("Case 7: Year=Single, Azienda=Single, Genere=ALL", data);
-          
+
           const result = data.results[0];
           const n_uomini = parseFloat(result?.n_uomini) || 0;
           const p_uomini = parseFloat(result?.p_uomini) || 0;
@@ -312,7 +312,7 @@ export default function DNFCharts() {
         }
         else if (Array.isArray(data) && data.length > 0) {
           // console.log("Case 8: Year=Single, Azienda=Single, Genere=Single", data);
-          
+
           const item = data[0];
           const n_data = parseFloat(item?.n_data) || 0;
           const p_data = parseFloat(item?.p_data) || 0;
@@ -381,12 +381,12 @@ export default function DNFCharts() {
       <div className="dnf-chart">{drawChart()}
 
         <div className="chart-description">
-        <h3>Dal seguente grafico possiamo scegliere i filrti da apllicare per vedere come è la situazione in varie aziende italiane del settore ICT</h3>
-        <p>Possiamo vedere che in tutte la presenza femminile è sempre minore rispetto a quella maschile, questo ci fa capire che anche nelle aziende e non solo nelle università esiste un gap tra uomini e donne in questo settore</p>
-      </div>
+          <h3>Dal seguente grafico possiamo scegliere i filtri da applicare per vedere come è la situazione in varie aziende italiane del settore ICT</h3>
+          <p>Possiamo vedere che in tutte la presenza femminile è sempre minore rispetto a quella maschile, questo ci fa capire che anche nelle aziende e non solo nelle università esiste un gap tra uomini e donne in questo settore</p>
+        </div>
       </div>
 
-      
+
     </div>
   );
 }
