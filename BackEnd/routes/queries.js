@@ -3,83 +3,83 @@ const router = express.Router();
 const db = require("../config/database");
 
 
-   const resOptimizer = (inData) => {
-      let res = {
-        anno: [],
-        cod: [],
-        PercCOD: [],
-      };
+const resOptimizer = (inData) => {
+  let res = {
+    anno: [],
+    cod: [],
+    PercCOD: [],
+  };
 
-      try {
-        inData.forEach((x) => {
-          if (!res.anno.includes(x.anno)) res.anno.push(x.anno);
-          if (!res.cod.includes(x.cod_foet2013)) {
-            res.cod.push(x.cod_foet2013);
-            res.PercCOD.push([]);
-          }
-        });
-
-        res.cod.forEach((x, idx) => {
-          inData.map((y) => {
-            if (y.cod_foet2013 == x) res.PercCOD[idx].push(y.perc_donne_stem);
-          });
-        });
-      } catch (error) {
-        console.log(error);
+  try {
+    inData.forEach((x) => {
+      if (!res.anno.includes(x.anno)) res.anno.push(x.anno);
+      if (!res.cod.includes(x.cod_foet2013)) {
+        res.cod.push(x.cod_foet2013);
+        res.PercCOD.push([]);
       }
+    });
 
-      return res;
-    };
+    res.cod.forEach((x, idx) => {
+      inData.map((y) => {
+        if (y.cod_foet2013 == x) res.PercCOD[idx].push(y.perc_donne_stem);
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
-    const resOptimizerStaff = (inData) => {
-      let res = {
-        anno: [],
-        cod: [],
-        PercCOD: [],
-      };
+  return res;
+};
 
-      try {
-        inData.forEach((x) => {
-          if (!res.anno.includes(x.anno)) res.anno.push(x.anno);
-          if (
-            !res.cod.includes(x.cod_sd) &&
-            x.cod_sd != "02" &&
-            x.cod_sd != "04"
-          ) {
-            res.cod.push(x.cod_sd);
-            res.PercCOD.push([]);
-          }
-        });
+const resOptimizerStaff = (inData) => {
+  let res = {
+    anno: [],
+    cod: [],
+    PercCOD: [],
+  };
 
-        let scienceData = [];
-
-        // console.log(inData);
-
-        for (let j = 0; j < 13; j++)
-          scienceData.push(
-            (
-              (parseFloat(inData[j].perc_donne_stem) +
-                parseFloat(inData[j + 1].perc_donne_stem) +
-                parseFloat(inData[j + 2].perc_donne_stem)) /
-              3
-            ).toFixed(2)
-          );
-
-        res.PercCOD[0].push(...scienceData);
-        // console.log(scienceData);
-
-        res.cod.forEach((x, idx) => {
-          inData.map((y) => {
-            if (y.cod_sd == x && x != "01")
-              res.PercCOD[idx].push(y.perc_donne_stem);
-          });
-        });
-      } catch (error) {
-        console.log(error);
+  try {
+    inData.forEach((x) => {
+      if (!res.anno.includes(x.anno)) res.anno.push(x.anno);
+      if (
+        !res.cod.includes(x.cod_sd) &&
+        x.cod_sd != "02" &&
+        x.cod_sd != "04"
+      ) {
+        res.cod.push(x.cod_sd);
+        res.PercCOD.push([]);
       }
+    });
 
-      return res;
-    };
+    let scienceData = [];
+
+    // console.log(inData);
+
+    for (let j = 0; j < Math.min(13, inData.length - 2); j++)
+      scienceData.push(
+        (
+          (parseFloat(inData[j].perc_donne_stem) +
+            parseFloat(inData[j + 1].perc_donne_stem) +
+            parseFloat(inData[j + 2].perc_donne_stem)) /
+          3
+        ).toFixed(2)
+      );
+
+    res.PercCOD[0].push(...scienceData);
+    // console.log(scienceData);
+
+    res.cod.forEach((x, idx) => {
+      inData.map((y) => {
+        if (y.cod_sd == x && x != "01")
+          res.PercCOD[idx].push(y.perc_donne_stem);
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  return res;
+};
 
 
 router.get("/getByRegion", async (req, res) => {
@@ -90,15 +90,15 @@ router.get("/getByRegion", async (req, res) => {
     const anno = req.query.year ? req.query.year : 'ALL'
 
     // console.log(anno);
-    
+
     if (!regione) {
       return res.status(400).json({ error: "Parametro regione mancante" });
     }
 
-    let query =``
+    let query = ``
     // all
-    if(anno == "ALL")
-    query=`
+    if (anno == "ALL")
+      query = `
      SELECT 
     genere,
     SUM(CASE WHEN tipo = 'immatricolati' THEN valore ELSE 0 END) AS t_i,
@@ -152,8 +152,8 @@ GROUP BY genere
 ORDER BY genere;
 
      `;
-     else
-      query=`
+    else
+      query = `
      SELECT 
     genere,
     SUM(CASE WHEN tipo = 'immatricolati' THEN valore ELSE 0 END) AS t_i,
@@ -211,8 +211,9 @@ ORDER BY genere;
 
     const [results] = await db.query(query, anno == 'ALL' ? [regione, regione, regione] : [regione, anno, regione, anno, regione, anno]);
 
-    // console.log({ donne: [results[0].t_i, results[0].t_l, results[0].t_dn, results[0].t_di, results[0].t_s]});
-    // console.log({ uomini: [results[1].t_i, results[1].t_l, results[1].t_dn, results[1].t_di, results[1].t_s]});
+    if (!results || results.length < 2) {
+      return res.status(404).json({ error: 'Dati non trovati per la regione specificata' });
+    }
 
     res.json({
       uomini: [results[0].t_i, results[0].t_l, results[0].t_s],
@@ -286,7 +287,7 @@ router.get("/getByYearICTS", async (req, res) => {
     let [results_dn] = await db.query(query_dn);
     let [results_a] = await db.query(query_a);
 
-    
+
     const results = [
       {
         donne: results_i

@@ -1,84 +1,115 @@
 # GenderGap
 
-Analisi e visualizzazione del **gender-gap** (distribuzione Uomini/Donne) per area geografica e anno con particolare attenzione al mondo digitale nei vari atanei italiani ed in alcuni aziende ICT italiane.  
-Il progetto comprende un **backend in Node.js + Express + MySQL** e un **frontend in React (Vite)** con grafici realizzati tramite la librearia **ApexCharts**.
+Il progetto é hoststo al segunte indirizzo: http://96.9.214.61:9001
 
+Analisi e visualizzazione del gender gap (distribuzione uomini/donne) per area geografica e anno, con particolare attenzione al settore digitale nelle università italiane e in alcune aziende ICT.
+Il progetto include:
+
+* Backend: Node.js + Express + MySQL
+* Frontend: React (Vite)
+* Grafici: ApexCharts
+
+---
 
 ## 📚 Stack Tecnologico
 
 ### 🔧 Backend
-- Node.js + Express  
-- MySQL (DB locale o remoto, configurato via `.env`)  
-- Libreria DB: `mysql2` 
+
+* Node.js + Express
+* MySQL (locale, remoto o via Docker)
+* mysql2 per la comunicazione col DB
 
 ### 💻 Frontend
-- React  
-- Vite (dev server + build tool moderno)
-- ApexCharts (per i grafici)  
-- Altre librerie React per UI/gestione stato
+
+* React + Vite
+* ApexCharts
+* Librerie UI aggiuntive
 
 ---
 
 ## 📁 Struttura della Repository
 
-```
-
 /
-├── backend/           # API, servizi, connessione DB, data processing
-├── frontend/          # UI React/Vite + grafici
-└── README.md          #
+├── backend/            # API, servizi, connessione DB
+├── frontend/           # UI React/Vite + grafici
+├── python-tool/        # Script Python per preparare dataset
+├── docker-compose.yml  # Docker per l'intero progetto
+├── mydata.sql          # Backup MySQL dei dati
+└── README.md
 
-```
 
 ---
 
-## 🚀 Avvio del Progetto in Locale
+# 🚀 Avvio del Progetto tramite Docker (Metodo consigliato)
+
+> ✔ Avvio automatico di backend + frontend + MySQL senza configurazioni manuali.
 
 ### 1️⃣ Clona la repository
 
-```bash
 git clone https://github.com/uCiceroCODE/GenderGap.git
 cd GenderGap
-````
+
+
+### 2️⃣ Avvia Docker
+
+Assicurati che Docker sia installato e attivo, poi lancia:
+
+docker compose up
+
+
+Dopo l’avvio, apri:
+
+http://localhost
+
+
+Questo avvierà automaticamente frontend, backend e database.
+
+### 💡 Tips
+
+* Devi essere nella cartella del progetto prima di lanciare docker compose up.
+* Per fermare tutto:
+
+  bash
+  docker compose down
+  
 
 ---
 
-## 🗄️ 2️⃣ Configurazione Database MySQL
+# 🚀 Avvio Manuale (senza Docker)
 
-Puoi usare:
-
-* un MySQL **locale**
-* un MySQL **su server remoto/hosting**
-* un MySQL **Docker**
-
-Crea un database con una struttura compatibile alla repository oppure installa il file di backup my sql con i dati usati da questa repository nella cartella database/backup.sql
-
-
-### 📌 Parametri necessari per la connessione
-
-Annota:
-
-| Variabile   | Descrizione               |
-| ----------- | ------------------------- |
-| DB_HOST     | hostname del server MySQL |
-| DB_PORT     | porta (default 3306)      |
-| DB_NAME     | nome del database         |
-| DB_USER     | utente MySQL              |
-| DB_PASSWORD | password                  |
+> ✔ Avvio separato di MySQL + backend + frontend
 
 ---
 
-## 🔐 3️⃣ Configura il backend con `.env`
+## 🗄️ 1️⃣ Configurazione MySQL
 
-Vai nella cartella `backend/`:
+Puoi usare uno di questi:
 
-```bash
-cd backend
-```
+* MySQL installato sul tuo PC
+* MySQL remoto
+* MySQL via Docker (es: docker run -p 3306:3306 mysql:latest)
 
-Crea il file `.env`:
+Crea un database vuoto oppure importa il file fornito:
 
-```
+mysql -u root -p yourdbname < mydata.sql
+
+
+### Parametri richiesti:
+
+| Variabile   | Descrizione                |
+| ----------- | -------------------------- |
+| DB_HOST     | Host MySQL (es. localhost) |
+| DB_PORT     | Porta MySQL (default 3306) |
+| DB_NAME     | Nome DB                    |
+| DB_USER     | Utente MySQL               |
+| DB_PASSWORD | Password                   |
+
+---
+
+## 🔐 2️⃣ Configura il Backend (backend/.env)
+
+Dentro la cartella backend/ crea il file:
+
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=yourdbname
@@ -87,144 +118,85 @@ DB_PASSWORD=yourpassword
 
 PORT=8080
 NODE_ENV=development
-```
-
-> 💡 Se usi un database esterno, sostituisci `localhost` con l’IP o dominio del server.
 
 
 ---
 
-## ▶️ 4️⃣ Avvia il Backend
+## ▶️ 3️⃣ Avvia il Backend
 
-Installazione dipendenze:
-
-```bash
+cd backend
 npm install
-```
-
-Avvio server:
-
-```bash
 npm run dev
-```
 
 
-L’API sarà ora disponibile su:
+Backend disponibile su:
 
-```
 http://localhost:8080
-```
+
 
 ---
 
-## 💻 5️⃣ Avvia il Frontend (React + Vite)
+## 💻 4️⃣ Avvia il Frontend
 
-Vai nella cartella:
-
-```bash
 cd ../frontend
-```
-
-Installa le dipendenze:
-
-```bash
 npm install
-```
-
-Avvia il client:
-
-```bash
 npm run dev
-```
 
-Il frontend sarà disponibile su:
 
-```
-http://localhost:5167
-```
+Frontend disponibile su:
+
+http://localhost:5173
+
+
+> Il numero di porta può cambiare, Vite lo mostra in console.
 
 ---
 
-## 🔗 Comunicazione Frontend → Backend
+## 🔗 5️⃣ Configurazione Frontend → Backend
 
-Nel frontend dovrai puntare alle API del backend.
-Aggiungi un file `.env` in `frontend/`:
+Crea il file frontend/.env:
 
-```
-VITE_API_URL=http://localhost:5167
-```
+VITE_API_URL=http://localhost:8080
 
-Usalo in React:
 
-```js
+Utilizzo in React:
+
 const api = import.meta.env.VITE_API_URL;
-```
+
 
 ---
 
-## 📊 Funzionamento del progetto
+# 📊 Come funziona il progetto
 
-1. Il backend legge i dati dal database MySQL e li espone tramite API REST.
-2. Il frontend chiama le API, riceve i dati e li visualizza:
+1. Backend
 
-   * Tabelle riassuntive
-   * Grafici tramite **ApexCharts**
-   * Confronti tra anni / aree geografiche
-   * Grafici generabili con filtro a discrezione dell'utente
-3. Nuovi dataset possono essere importati tramite script backend o API dedicate.
+   * legge i dati dal database
+   * fornisce API REST al frontend
+
+2. Frontend
+
+   * chiama le API
+   * genera grafici (ApexCharts)
+   * permette filtri e confronti (anni, regioni, valori variabili)
+
+3. Dataset
+
+   * possono essere ampliati o rigenerati con script Python inclusi
 
 ---
 
-## 🛠️ Scripts Utili
+# 🛠️ Scripts Utili
 
-Backend:
+### Backend
 
-```bash
-npm run dev           
-```
+npm run dev
 
-Frontend:
 
-```bash
+### Frontend
+
 npm run dev
 npm run build
 npm run preview
-```
+
 
 ---
-
-## 🤝 Contribuire
-
-1. Forka il repository
-2. Crea un branch: `git checkout -b feature/tua-feature`
-3. Commit: `git commit -m "Aggiunta nuova feature"`
-4. Push: `git push origin feature/tua-feature`
-5. Apri una Pull Request
-
----
-
-## 📝 Licenza
-
-Aggiungi qui la tua licenza (MIT consigliata).
-Se vuoi posso generare il file `LICENSE`.
-
----
-
-## 📌 Motivazione
-
-Questo progetto serve per:
-
-* Visualizzare rapidamente la rappresentanza di genere per regione
-* Confrontare anni diversi
-* Avere una dashboard semplice e leggibile
-* Analizzare trend e variazioni nel tempo
-* E molto altro...
-
----
-
-## 📧 Supporto
-
-Per problemi, apri una Issue nella repository.
-
----
-

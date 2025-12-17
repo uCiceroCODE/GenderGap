@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Charts from './components/Charts'
 import Footer from './components/Footer'
 import GenderGapFAQ from './components/GenderGapFAQ'
@@ -8,9 +9,11 @@ import Stats from './components/Stats'
 
 function App() {
 
-  window.addEventListener("load", () => {
-  document.body.classList.remove("preload");
-});
+  useEffect(() => {
+    const handleLoad = () => document.body.classList.remove("preload");
+    window.addEventListener("load", handleLoad);
+    return () => window.removeEventListener("load", handleLoad);
+  }, []);
 
   return (
     <div>
