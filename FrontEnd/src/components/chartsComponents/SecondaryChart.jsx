@@ -140,15 +140,15 @@ export default function SecondaryChart({ w }) {
                       <ColumnChart
                         w={w}
                         categories={[...x.anno]}
-                        data1={[...x.value[currentSubIndex]]}
-                        data2={[
+                        data2={[...x.value[currentSubIndex]]}
+                        data1={[
                           ...x.value[currentSubIndex].map((w) =>
                             (100 - w).toFixed(2)
                           ),
                         ]}
                         vertical={w >= 900 ? true : false}
-                        label1={"Donne"}
-                        label2={"Uomini"}
+                        label2={"Donne"}
+                        label1={"Uomini"}
                       />
                     )
                       : (
@@ -157,15 +157,15 @@ export default function SecondaryChart({ w }) {
                           <ColumnChart
                             w={w}
                             categories={[...x.anno]}
-                            data1={[
+                            data2={[
                               ...x.value[currentSubIndex].map((w) =>
                                 (100 - w).toFixed(2)
                               ),
                             ]}
-                            data2={[...x.value[currentSubIndex]]}
+                            data1={[...x.value[currentSubIndex]]}
                             vertical={w >= 900 ? true : false}
-                            label1={"Uomini"}
-                            label2={"Donne"}
+                            label2={"Uomini"}
+                            label1={"Donne"}
                           />
                         )
                       )}
