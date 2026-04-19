@@ -1,202 +1,96 @@
-# GenderGap
+# 📊 GenderGap
 
-Il progetto é hoststo al segunte indirizzo: http://96.9.214.61:9001
+> 🇮🇹 [Leggi in italiano](./README.it.md)
 
-Analisi e visualizzazione del gender gap (distribuzione uomini/donne) per area geografica e anno, con particolare attenzione al settore digitale nelle università italiane e in alcune aziende ICT.
-Il progetto include:
+Analysis and visualization of the **gender gap** (male/female distribution) by geographic area and year, with a focus on the digital sector in Italian universities and ICT companies.
 
-* Backend: Node.js + Express + MySQL
-* Frontend: React (Vite)
-* Grafici: ApexCharts
+🌐 Live demo: http://96.9.214.61:9001
 
----
+## Features
 
-## 📚 Stack Tecnologico
+- Interactive charts filtered by year, region, and variable
+- Gender distribution data for Italian universities and ICT companies
+- Dataset extensible via included Python scripts
 
-### 🔧 Backend
+## Tech Stack
 
-* Node.js + Express
-* MySQL (locale, remoto o via Docker)
-* mysql2 per la comunicazione col DB
+| Layer | Technology |
+|---|---|
+| Backend | Node.js + Express + MySQL |
+| Frontend | React + Vite |
+| Charts | ApexCharts |
+| DevOps | Docker + docker-compose |
 
-### 💻 Frontend
+## Project Structure
 
-* React + Vite
-* ApexCharts
-* Librerie UI aggiuntive
-
----
-
-## 📁 Struttura della Repository
-
+```
 /
-├── backend/            # API, servizi, connessione DB
-├── frontend/           # UI React/Vite + grafici
-├── python-tool/        # Script Python per preparare dataset
-├── docker-compose.yml  # Docker per l'intero progetto
-├── mydata.sql          # Backup MySQL dei dati
+├── BackEnd/           # API, services, DB connection
+├── FrontEnd/          # React/Vite UI + charts
+├── python tool/       # Python scripts to prepare dataset
+├── docker-compose.yml # Docker for the full stack
+├── mydata.sql         # MySQL data backup
 └── README.md
+```
 
+## 🚀 Quick Start (Docker — recommended)
 
----
-
-# 🚀 Avvio del Progetto tramite Docker (Metodo consigliato)
-
-> ✔ Avvio automatico di backend + frontend + MySQL senza configurazioni manuali.
-
-### 1️⃣ Clona la repository
-
+```bash
 git clone https://github.com/uCiceroCODE/GenderGap.git
 cd GenderGap
-
-
-### 2️⃣ Avvia Docker
-
-Assicurati che Docker sia installato e attivo, poi lancia:
-
 docker compose up
+```
 
+Then open: http://localhost
 
-Dopo l’avvio, apri:
+To stop:
+```bash
+docker compose down
+```
 
-http://localhost
+## Manual Setup (without Docker)
 
+### 1. MySQL
 
-Questo avvierà automaticamente frontend, backend e database.
-
-### 💡 Tips
-
-* Devi essere nella cartella del progetto prima di lanciare docker compose up.
-* Per fermare tutto:
-
-  bash
-  docker compose down
-  
-
----
-
-# 🚀 Avvio Manuale (senza Docker)
-
-> ✔ Avvio separato di MySQL + backend + frontend
-
----
-
-## 🗄️ 1️⃣ Configurazione MySQL
-
-Puoi usare uno di questi:
-
-* MySQL installato sul tuo PC
-* MySQL remoto
-* MySQL via Docker (es: docker run -p 3306:3306 mysql:latest)
-
-Crea un database vuoto oppure importa il file fornito:
-
+Import the provided dump:
+```bash
 mysql -u root -p yourdbname < mydata.sql
+```
 
+### 2. Backend — `BackEnd/.env`
 
-### Parametri richiesti:
-
-| Variabile   | Descrizione                |
-| ----------- | -------------------------- |
-| DB_HOST     | Host MySQL (es. localhost) |
-| DB_PORT     | Porta MySQL (default 3306) |
-| DB_NAME     | Nome DB                    |
-| DB_USER     | Utente MySQL               |
-| DB_PASSWORD | Password                   |
-
----
-
-## 🔐 2️⃣ Configura il Backend (backend/.env)
-
-Dentro la cartella backend/ crea il file:
-
+```env
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=yourdbname
 DB_USER=root
 DB_PASSWORD=yourpassword
-
 PORT=8080
 NODE_ENV=development
+```
 
+```bash
+cd BackEnd && npm install && npm run dev
+```
+Backend available at: http://localhost:8080
 
----
+### 3. Frontend — `FrontEnd/.env`
 
-## ▶️ 3️⃣ Avvia il Backend
-
-cd backend
-npm install
-npm run dev
-
-
-Backend disponibile su:
-
-http://localhost:8080
-
-
----
-
-## 💻 4️⃣ Avvia il Frontend
-
-cd ../frontend
-npm install
-npm run dev
-
-
-Frontend disponibile su:
-
-http://localhost:5173
-
-
-> Il numero di porta può cambiare, Vite lo mostra in console.
-
----
-
-## 🔗 5️⃣ Configurazione Frontend → Backend
-
-Crea il file frontend/.env:
-
+```env
 VITE_API_URL=http://localhost:8080
+```
 
+```bash
+cd FrontEnd && npm install && npm run dev
+```
+Frontend available at: http://localhost:5173
 
-Utilizzo in React:
+## How It Works
 
-const api = import.meta.env.VITE_API_URL;
+1. **Backend** reads data from MySQL and exposes REST APIs
+2. **Frontend** calls the APIs and renders interactive charts
+3. **Dataset** can be extended or regenerated using the included Python scripts
 
+## Authors
 
----
-
-# 📊 Come funziona il progetto
-
-1. Backend
-
-   * legge i dati dal database
-   * fornisce API REST al frontend
-
-2. Frontend
-
-   * chiama le API
-   * genera grafici (ApexCharts)
-   * permette filtri e confronti (anni, regioni, valori variabili)
-
-3. Dataset
-
-   * possono essere ampliati o rigenerati con script Python inclusi
-
----
-
-# 🛠️ Scripts Utili
-
-### Backend
-
-npm run dev
-
-
-### Frontend
-
-npm run dev
-npm run build
-npm run preview
-
-
----
+[uCiceroCODE](https://github.com/uCiceroCODE)
